@@ -32,7 +32,7 @@ class TitleView extends StatelessWidget {
           onPressed: () {
             // TODO(wolfen): Navigate to game page
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              MaterialPageRoute<void>(
                 builder: (context) => const Scaffold(),
               ),
             );
