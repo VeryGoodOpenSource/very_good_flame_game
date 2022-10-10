@@ -7,8 +7,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:very_good_flame_game/counter/counter.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
+import 'package:very_good_flame_game/title/title.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -17,9 +17,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
+        primaryColor: const Color(0xFF2A48DF),
+        appBarTheme: const AppBarTheme(color: Color(0xFF2A48DF)),
         colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
+          accentColor: const Color(0xFF2A48DF),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(const Color(0xFF2A48DF)),
+          ),
         ),
       ),
       localizationsDelegates: const [
@@ -27,7 +34,7 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const TitlePage(),
     );
   }
 }

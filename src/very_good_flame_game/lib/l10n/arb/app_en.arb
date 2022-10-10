@@ -1,7 +1,11 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+    "titleAppBarTitle": "Very Good Flame Game",
+    "@titleAppBarTitle": {
+        "description": "Text shown in the AppBar of the Title Page"
+    },
+    "titleButtonStart": "Start",
+    "@titleButtonStart": {
+        "description": "Text shown in the start Button of the Title Page"
     }
 }
