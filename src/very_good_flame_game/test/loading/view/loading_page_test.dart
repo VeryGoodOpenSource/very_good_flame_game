@@ -1,0 +1,107 @@
+// Copyright (c) 2022, Very Good Ventures
+// https://verygood.ventures
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://opensource.org/licenses/MIT.
+
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flame/cache.dart';
+import 'package:flutter/widgets.dart' hide Image;
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockingjay/mockingjay.dart';
+import 'package:very_good_flame_game/gen/assets.gen.dart';
+import 'package:very_good_flame_game/loading/loading.dart';
+
+import '../../helpers/helpers.dart';
+
+class MockImages extends Mock implements Images {}
+
+class MockAudioCache extends Mock implements AudioCache {}
+
+void main() {
+  group('LoadingPage', () {
+    late PreloadCubit preloadCubit;
+    late MockImages images;
+    late MockAudioCache audio;
+
+    setUp(() {
+      preloadCubit = PreloadCubit(
+        images = MockImages(),
+        audio = MockAudioCache(),
+      );
+
+      when(
+        () => images.loadAll(any()),
+      ).thenAnswer((Invocation invocation) => Future.value(<Image>[]));
+
+      when(() => audio.loadAll([Assets.audio.background]))
+          .thenAnswer((Invocation invocation) async {
+        return [Uri.parse(Assets.audio.background)];
+      });
+    });
+
+    testWidgets('basic layout', (tester) async {
+      await tester.pumpApp(
+        LoadingPage(),
+        preloadCubit: preloadCubit,
+      );
+
+      expect(find.byType(AnimatedProgressBar), findsOneWidget);
+      expect(find.textContaining('Loading'), findsOneWidget);
+
+      await tester.pumpAndSettle(Duration(seconds: 1));
+    });
+
+    testWidgets('loading text', (tester) async {
+      Text textWidgetFinder() {
+        return find.textContaining('Loading').evaluate().first.widget as Text;
+      }
+
+      await tester.pumpApp(
+        LoadingPage(),
+        preloadCubit: preloadCubit,
+      );
+
+      expect(textWidgetFinder().data, 'Loading  ...');
+
+      unawaited(preloadCubit.loadSequentially());
+
+      await tester.pump();
+
+      expect(textWidgetFinder().data, 'Loading Delightful music...');
+      await tester.pump(const Duration(milliseconds: 200));
+
+      expect(textWidgetFinder().data, 'Loading Beautiful scenery...');
+      await tester.pump(const Duration(milliseconds: 200));
+
+      /// flush animation timers
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('redirects after loading', (tester) async {
+      final navigator = MockNavigator();
+      when(() => navigator.pushReplacement<void, void>(any()))
+          .thenAnswer((_) async {});
+
+      await tester.pumpApp(
+        LoadingPage(),
+        preloadCubit: preloadCubit,
+        navigator: navigator,
+      );
+
+      unawaited(preloadCubit.loadSequentially());
+
+      await tester.pump(const Duration(milliseconds: 800));
+
+      await tester.pumpAndSettle();
+
+      verify(() => navigator.pushReplacement<void, void>(any())).called(1);
+    });
+  });
+}

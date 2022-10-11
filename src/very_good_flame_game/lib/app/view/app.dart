@@ -5,13 +5,35 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flame/cache.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
-import 'package:very_good_flame_game/title/title.dart';
+import 'package:very_good_flame_game/loading/loading.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => PreloadCubit(
+            Images(prefix: ''),
+            AudioCache(prefix: ''),
+          )..loadSequentially(),
+        )
+      ],
+      child: const AppView(),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  const AppView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +56,7 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const TitlePage(),
+      home: const LoadingPage(),
     );
   }
 }
