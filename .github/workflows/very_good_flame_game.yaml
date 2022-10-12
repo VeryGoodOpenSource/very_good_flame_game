@@ -25,3 +25,4 @@ jobs:
       flutter_channel: stable
       flutter_version: 3.3.3
       working_directory: src/very_good_flame_game
+      coverage_excludes: "lib/gen/*.dart"

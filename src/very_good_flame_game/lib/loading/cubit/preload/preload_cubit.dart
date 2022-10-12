@@ -13,7 +13,7 @@ class PreloadCubit extends Cubit<PreloadState> {
 
   /// Load items sequentially allows display of what is being loaded
   Future<void> loadSequentially() async {
-    final phases = <PreloadPhase>[
+    final phases = [
       PreloadPhase('audio', () => audio.loadAll([Assets.audio.background])),
       PreloadPhase(
         'images',

@@ -7,13 +7,15 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_flame_game/app/app.dart';
-import 'package:very_good_flame_game/title/title.dart';
 
 void main() {
   group('App', () {
-    testWidgets('renders TitlePage', (tester) async {
+    testWidgets('renders AppView', (tester) async {
       await tester.pumpWidget(const App());
-      expect(find.byType(TitlePage), findsOneWidget);
+
+      // FIXME: this is needed because of the preload cubit, can we do it better?
+      await tester.pumpAndSettle(const Duration(seconds: 400));
+      expect(find.byType(AppView), findsOneWidget);
     });
   });
 }

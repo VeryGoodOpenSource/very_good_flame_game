@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/cache.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -39,38 +40,51 @@ void main() {
     });
 
     group('loadSequentially', () {
-      testWidgets('should load assets', (tester) async {
-        final images = MockImages();
-        when(
-          () => images.loadAll([Assets.images.unicornAnimation.path]),
-        ).thenAnswer((Invocation invocation) => Future.value(<Image>[]));
+      late Images images;
+      late AudioCache audio;
 
-        final audio = MockAudioCache();
-        when(() => audio.loadAll([Assets.audio.background])).thenAnswer(
-          (Invocation invocation) async => [Uri.parse(Assets.audio.background)],
-        );
+      blocTest<PreloadCubit, PreloadState>(
+        'loads assets',
+        setUp: () {
+          images = MockImages();
+          when(
+            () => images.loadAll([Assets.images.unicornAnimation.path]),
+          ).thenAnswer((invocation) => Future.value(<Image>[]));
 
-        final cubit = PreloadCubit(images, audio);
-
-        final future = cubit.loadSequentially();
-
-        // Each phase is called in the next tick, so we need to settle first.
-        await tester.pumpAndSettle(const Duration(microseconds: 1));
-
-        verify(() => audio.loadAll([Assets.audio.background])).called(1);
-        expect(cubit.state.isComplete, false);
-        expect(cubit.state.currentLabel, 'audio');
-        await tester.pumpAndSettle(const Duration(milliseconds: 200));
-
-        verify(() => images.loadAll([Assets.images.unicornAnimation.path]))
-            .called(1);
-        expect(cubit.state.isComplete, false);
-        expect(cubit.state.currentLabel, 'images');
-
-        await future;
-
-        expect(cubit.state.isComplete, true);
-      });
+          audio = MockAudioCache();
+          when(() => audio.loadAll([Assets.audio.background])).thenAnswer(
+            (invocation) async => [Uri.parse(Assets.audio.background)],
+          );
+        },
+        build: () => PreloadCubit(images, audio),
+        act: (bloc) => bloc.loadSequentially(),
+        expect: () => [
+          isA<PreloadState>()
+              .having((s) => s.currentLabel, 'currentLabel', equals(''))
+              .having((s) => s.totalCount, 'totalCount', equals(2)),
+          isA<PreloadState>()
+              .having((s) => s.currentLabel, 'currentLabel', equals('audio'))
+              .having((s) => s.isComplete, 'isComplete', isFalse)
+              .having((s) => s.loadedCount, 'loadedCount', equals(0)),
+          isA<PreloadState>()
+              .having((s) => s.currentLabel, 'currentLabel', equals('audio'))
+              .having((s) => s.isComplete, 'isComplete', isFalse)
+              .having((s) => s.loadedCount, 'loadedCount', equals(1)),
+          isA<PreloadState>()
+              .having((s) => s.currentLabel, 'currentLabel', equals('images'))
+              .having((s) => s.isComplete, 'isComplete', isFalse)
+              .having((s) => s.loadedCount, 'loadedCount', equals(1)),
+          isA<PreloadState>()
+              .having((s) => s.currentLabel, 'currentLabel', equals('images'))
+              .having((s) => s.isComplete, 'isComplete', isTrue)
+              .having((s) => s.loadedCount, 'loadedCount', equals(2)),
+        ],
+        verify: (bloc) {
+          verify(() => audio.loadAll([Assets.audio.background])).called(1);
+          verify(() => images.loadAll([Assets.images.unicornAnimation.path]))
+              .called(1);
+        },
+      );
     });
   });
 }
