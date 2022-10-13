@@ -8,9 +8,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:very_good_flame_game/gen/assets.gen.dart';
 import 'package:very_good_flame_game/loading/loading.dart';
 
-class MockImages extends Mock implements Images {}
+class _MockImages extends Mock implements Images {}
 
-class MockAudioCache extends Mock implements AudioCache {}
+class _MockAudioCache extends Mock implements AudioCache {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -18,22 +18,22 @@ void main() {
   group('PreloadCubit', () {
     test('can be instantiated', () {
       expect(
-        PreloadCubit(MockImages(), MockAudioCache()),
+        PreloadCubit(_MockImages(), _MockAudioCache()),
         isA<PreloadCubit>(),
       );
     });
 
     test('can be instantiated with images', () {
-      final images = MockImages();
-      final audio = MockAudioCache();
+      final images = _MockImages();
+      final audio = _MockAudioCache();
 
       expect(PreloadCubit(images, audio).images, images);
     });
 
     test('can be instantiated with initial state', () {
       final preloadCubit = PreloadCubit(
-        MockImages(),
-        MockAudioCache(),
+        _MockImages(),
+        _MockAudioCache(),
       );
 
       expect(preloadCubit.state, const PreloadState.initial());
@@ -46,12 +46,12 @@ void main() {
       blocTest<PreloadCubit, PreloadState>(
         'loads assets',
         setUp: () {
-          images = MockImages();
+          images = _MockImages();
           when(
             () => images.loadAll([Assets.images.unicornAnimation.path]),
           ).thenAnswer((invocation) => Future.value(<Image>[]));
 
-          audio = MockAudioCache();
+          audio = _MockAudioCache();
           when(() => audio.loadAll([Assets.audio.background])).thenAnswer(
             (invocation) async => [Uri.parse(Assets.audio.background)],
           );

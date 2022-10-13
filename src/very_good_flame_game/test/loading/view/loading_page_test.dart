@@ -20,30 +20,27 @@ import 'package:very_good_flame_game/loading/loading.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockImages extends Mock implements Images {}
+class _MockImages extends Mock implements Images {}
 
-class MockAudioCache extends Mock implements AudioCache {}
+class _MockAudioCache extends Mock implements AudioCache {}
 
 void main() {
   group('LoadingPage', () {
     late PreloadCubit preloadCubit;
-    late MockImages images;
-    late MockAudioCache audio;
+    late _MockImages images;
+    late _MockAudioCache audio;
 
     setUp(() {
       preloadCubit = PreloadCubit(
-        images = MockImages(),
-        audio = MockAudioCache(),
+        images = _MockImages(),
+        audio = _MockAudioCache(),
       );
 
-      when(
-        () => images.loadAll(any()),
-      ).thenAnswer((Invocation invocation) => Future.value(<Image>[]));
+      when(() => images.loadAll(any())).thenAnswer((_) async => <Image>[]);
 
-      when(() => audio.loadAll([Assets.audio.background]))
-          .thenAnswer((Invocation invocation) async {
-        return [Uri.parse(Assets.audio.background)];
-      });
+      when(() => audio.loadAll([Assets.audio.background])).thenAnswer(
+        (_) async => [Uri.parse(Assets.audio.background)],
+      );
     });
 
     testWidgets('basic layout', (tester) async {
