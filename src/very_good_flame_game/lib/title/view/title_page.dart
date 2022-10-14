@@ -4,6 +4,12 @@ import 'package:very_good_flame_game/l10n/l10n.dart';
 class TitlePage extends StatelessWidget {
   const TitlePage({super.key});
 
+  static Route<void> route() {
+    return MaterialPageRoute<void>(
+      builder: (_) => const TitlePage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
