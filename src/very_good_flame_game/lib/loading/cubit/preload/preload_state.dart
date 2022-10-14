@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:very_good_flame_game/loading/loading.dart';
+part of 'preload_cubit.dart';
 
 /// State for [PreloadCubit].
 class PreloadState extends Equatable {
@@ -9,7 +8,7 @@ class PreloadState extends Equatable {
         loadedCount = 0,
         currentLabel = '';
 
-  const PreloadState._update(
+  const PreloadState._(
     this.loadedCount,
     this.currentLabel,
     this.totalCount,
@@ -28,30 +27,22 @@ class PreloadState extends Equatable {
 
   bool get isComplete => progress == 1.0;
 
-  PreloadState startLoading(int totalCount) {
-    return PreloadState._update(0, '', totalCount);
-  }
-
-  PreloadState onStartPhase(String label) {
-    return PreloadState._update(
-      loadedCount,
-      label,
-      totalCount,
-    );
-  }
-
-  PreloadState onFinishPhase() {
-    return PreloadState._update(
-      loadedCount + 1,
-      currentLabel,
-      totalCount,
-    );
-  }
-
   @override
   List<Object?> get props => [
         totalCount,
         loadedCount,
         currentLabel,
       ];
+
+  PreloadState copyWith({
+    int? loadedCount,
+    String? currentLabel,
+    int? totalCount,
+  }) {
+    return PreloadState._(
+      loadedCount ?? this.loadedCount,
+      currentLabel ?? this.currentLabel,
+      totalCount ?? this.totalCount,
+    );
+  }
 }

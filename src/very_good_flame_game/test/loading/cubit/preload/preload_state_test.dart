@@ -10,32 +10,6 @@ void main() {
       expect(state.currentLabel, '');
     });
 
-    test('startLoading', () {
-      final state = const PreloadState.initial().startLoading(2);
-      expect(state.totalCount, 2);
-      expect(state.loadedCount, 0);
-      expect(state.currentLabel, '');
-    });
-
-    test('onStartPhase', () {
-      final state = const PreloadState.initial()
-          .startLoading(2)
-          .onStartPhase('some phase');
-      expect(state.totalCount, 2);
-      expect(state.loadedCount, 0);
-      expect(state.currentLabel, 'some phase');
-    });
-
-    test('onFinishPhase', () {
-      final state = const PreloadState.initial()
-          .startLoading(2)
-          .onStartPhase('some phase')
-          .onFinishPhase();
-      expect(state.totalCount, 2);
-      expect(state.loadedCount, 1);
-      expect(state.currentLabel, 'some phase');
-    });
-
     group('progress', () {
       test('when not started is zero', () {
         const state = PreloadState.initial();
@@ -43,8 +17,10 @@ void main() {
       });
 
       test('after started', () {
-        final state =
-            const PreloadState.initial().startLoading(2).onFinishPhase();
+        final state = const PreloadState.initial().copyWith(
+          totalCount: 2,
+          loadedCount: 1,
+        );
         expect(state.progress, 0.5);
       });
     });
@@ -56,11 +32,13 @@ void main() {
       });
 
       test('after started', () {
-        final state =
-            const PreloadState.initial().startLoading(2).onFinishPhase();
+        final state = const PreloadState.initial().copyWith(
+          totalCount: 2,
+          loadedCount: 1,
+        );
         expect(state.isComplete, false);
 
-        final stateComplete = state.onFinishPhase();
+        final stateComplete = state.copyWith(loadedCount: 2);
         expect(stateComplete.isComplete, true);
       });
     });
