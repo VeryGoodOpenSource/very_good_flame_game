@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:very_good_flame_game/game/game.dart';
 
 import 'package:very_good_flame_game/title/title.dart';
 
@@ -14,7 +15,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('TitlePage', () {
-    testWidgets('renders CounterView', (tester) async {
+    testWidgets('renders TitleView', (tester) async {
       await tester.pumpApp(const TitlePage());
       expect(find.byType(TitleView), findsOneWidget);
     });
@@ -31,9 +32,10 @@ void main() {
       await tester.pumpApp(const TitleView());
 
       await tester.tap(find.byType(ElevatedButton));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump();
 
-      expect(find.byType(TitleView), findsNothing);
+      expect(find.byType(GamePage), findsOneWidget);
     });
   });
 }

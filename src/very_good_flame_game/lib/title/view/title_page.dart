@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:very_good_flame_game/game/game.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
 
 class TitlePage extends StatelessWidget {
@@ -36,12 +37,7 @@ class TitleView extends StatelessWidget {
         height: 64,
         child: ElevatedButton(
           onPressed: () {
-            // TODO(wolfen): Navigate to game page
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute<void>(
-                builder: (context) => const Scaffold(),
-              ),
-            );
+            Navigator.of(context).pushReplacement(GamePage.route());
           },
           child: Center(child: Text(l10n.titleButtonStart)),
         ),
