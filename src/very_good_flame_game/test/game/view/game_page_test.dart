@@ -12,17 +12,21 @@ void main() {
     });
   });
 
-  group('GameView', () {
-    testWidgets('tapping the volume icon toggles the mute state', (tester) async {
-      await tester.pumpApp(const Material(child: GameView()));
+  group(
+    'GameView',
+    () {
+      testWidgets('tapping the volume icon toggles the mute state',
+          (tester) async {
+        await tester.pumpApp(const Material(child: GameView()));
 
-      expect(find.byType(IconButton), findsOneWidget);
-      expect(find.byIcon(Icons.volume_off), findsOneWidget);
+        expect(find.byType(IconButton), findsOneWidget);
+        expect(find.byIcon(Icons.volume_off), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.volume_off));
-      await tester.pump();
+        await tester.tap(find.byIcon(Icons.volume_off));
+        await tester.pump();
 
-      expect(find.byIcon(Icons.volume_up), findsOneWidget);
-    });
-  });
+        expect(find.byIcon(Icons.volume_up), findsOneWidget);
+      });
+    },
+  );
 }
