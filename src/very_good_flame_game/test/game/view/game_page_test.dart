@@ -13,7 +13,7 @@ void main() {
   });
 
   group('GameView', () {
-    testWidgets('mute audio', (tester) async {
+    testWidgets('tapping the volume icon toggles the mute state', (tester) async {
       await tester.pumpApp(const Material(child: GameView()));
 
       expect(find.byType(IconButton), findsOneWidget);
