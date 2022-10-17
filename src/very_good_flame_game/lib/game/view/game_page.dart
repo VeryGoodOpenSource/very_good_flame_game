@@ -27,7 +27,7 @@ class GameView extends StatefulWidget {
 }
 
 class _GameViewState extends State<GameView> {
-  VeryGoodFlameGame? _game;
+  late VeryGoodFlameGame _game;
 
   bool _muted = false;
 
@@ -41,7 +41,7 @@ class _GameViewState extends State<GameView> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(child: GameWidget(game: _game!)),
+        Positioned.fill(child: GameWidget(game: _game)),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
