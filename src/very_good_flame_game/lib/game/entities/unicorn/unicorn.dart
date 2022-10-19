@@ -47,9 +47,10 @@ class Unicorn extends Entity with HasGameRef {
   /// Set the animation to the first frame by tricking the animation
   /// into thinking it finished the last frame.
   void resetAnimation() {
-    animation.currentIndex = _animation!.frames.length - 1;
-    animation.update(0.1);
-    animation.currentIndex = 0;
+    animation
+      ..currentIndex = _animation!.frames.length - 1
+      ..update(0.1)
+      ..currentIndex = 0;
   }
 
   /// Plays the animation.
