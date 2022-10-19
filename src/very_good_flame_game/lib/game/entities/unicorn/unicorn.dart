@@ -39,7 +39,7 @@ class Unicorn extends Entity with HasGameRef {
     );
 
     resetAnimation();
-    _animation!.onComplete = resetAnimation;
+    animation.onComplete = resetAnimation;
 
     await add(SpriteAnimationComponent(animation: _animation, size: size));
   }
@@ -47,14 +47,14 @@ class Unicorn extends Entity with HasGameRef {
   /// Set the animation to the first frame by tricking the animation
   /// into thinking it finished the last frame.
   void resetAnimation() {
-    _animation!.currentIndex = _animation!.frames.length - 1;
-    _animation!.update(0.1);
-    _animation!.currentIndex = 0;
+    animation.currentIndex = _animation!.frames.length - 1;
+    animation.update(0.1);
+    animation.currentIndex = 0;
   }
 
   /// Plays the animation.
-  void playAnimation() => _animation!.reset();
+  void playAnimation() => animation.reset();
 
   /// Returns whether the animation is playing or not.
-  bool isAnimationPlaying() => !_animation!.isFirstFrame;
+  bool isAnimationPlaying() => !animation.isFirstFrame;
 }
