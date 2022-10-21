@@ -6,6 +6,10 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('GamePage', () {
+    test('is routable', () {
+      expect(GamePage.route(), isA<MaterialPageRoute<void>>());
+    });
+
     testWidgets('renders GameView', (tester) async {
       await tester.pumpApp(const GamePage());
       expect(find.byType(GameView), findsOneWidget);
