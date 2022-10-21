@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_flame_game/game/game.dart';
+import 'package:mockingjay/mockingjay.dart';
 
 import 'package:very_good_flame_game/title/title.dart';
 
@@ -29,13 +29,16 @@ void main() {
     });
 
     testWidgets('starts the game when start button is tapped', (tester) async {
-      await tester.pumpApp(const TitleView());
+      final navigator = MockNavigator();
+      when(
+        () => navigator.pushReplacement<void, void>(any()),
+      ).thenAnswer((_) async {});
+
+      await tester.pumpApp(const TitleView(), navigator: navigator);
 
       await tester.tap(find.byType(ElevatedButton));
-      await tester.pump();
-      await tester.pump();
 
-      expect(find.byType(GamePage), findsOneWidget);
+      verify(() => navigator.pushReplacement<void, void>(any())).called(1);
     });
   });
 }
