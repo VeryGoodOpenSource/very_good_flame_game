@@ -6,6 +6,25 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('GamePage', () {
+    testWidgets('is routable', (tester) async {
+      await tester.pumpApp(
+        Builder(
+          builder: (context) => Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => Navigator.of(context).push(GamePage.route()),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(FloatingActionButton));
+
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(GamePage), findsOneWidget);
+    });
+
     testWidgets('renders GameView', (tester) async {
       await tester.pumpApp(const GamePage());
       expect(find.byType(GameView), findsOneWidget);
