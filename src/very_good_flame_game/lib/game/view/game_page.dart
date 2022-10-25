@@ -20,21 +20,23 @@ class GamePage extends StatelessWidget {
 }
 
 class GameView extends StatefulWidget {
-  const GameView({super.key});
+  const GameView({super.key, this.game});
+
+  final Game? game;
 
   @override
   State<GameView> createState() => _GameViewState();
 }
 
 class _GameViewState extends State<GameView> {
-  late VeryGoodFlameGame _game;
+  late Game _game;
 
   bool _muted = false;
 
   @override
   void initState() {
     super.initState();
-    _game = VeryGoodFlameGame();
+    _game = widget.game ?? VeryGoodFlameGame();
   }
 
   @override

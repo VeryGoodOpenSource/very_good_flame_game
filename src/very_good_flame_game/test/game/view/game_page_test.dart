@@ -1,8 +1,18 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:very_good_flame_game/game/game.dart';
 
 import '../../helpers/helpers.dart';
+
+class TestGame extends Game {
+  @override
+  void render(Canvas canvas) {}
+
+  @override
+  void update(double dt) {}
+}
 
 void main() {
   group('GamePage', () {
@@ -36,7 +46,8 @@ void main() {
     () {
       testWidgets('tapping the volume icon toggles the mute state',
           (tester) async {
-        await tester.pumpApp(const Material(child: GameView()));
+        final game = TestGame();
+        await tester.pumpApp(Material(child: GameView(game: game)));
 
         expect(find.byType(IconButton), findsOneWidget);
         expect(find.byIcon(Icons.volume_off), findsOneWidget);
