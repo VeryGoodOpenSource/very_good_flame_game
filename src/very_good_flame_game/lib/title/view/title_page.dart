@@ -37,7 +37,7 @@ class TitleView extends StatelessWidget {
         height: 64,
         child: ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pushReplacement(GamePage.route());
+            Navigator.of(context).pushReplacement<void, void>(GamePage.route());
           },
           child: Center(child: Text(l10n.titleButtonStart)),
         ),
