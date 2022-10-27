@@ -11,6 +11,13 @@ import 'package:very_good_flame_game/l10n/l10n.dart';
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
+class _VeryGoodFlameGame extends VeryGoodFlameGame {
+  _VeryGoodFlameGame({required super.l10n});
+
+  @override
+  Future<void> onLoad() async {}
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -18,7 +25,7 @@ void main() {
   when(() => l10n.counterText(any())).thenReturn('counterText');
 
   final flameTester = FlameTester(
-    () => VeryGoodFlameGame(l10n: l10n),
+    () => _VeryGoodFlameGame(l10n: l10n),
   );
 
   group('TappingBehavior', () {
@@ -42,7 +49,7 @@ void main() {
 
         game.update(0.1);
 
-        final unicorn = game.lastChild<Unicorn>()!;
+        final unicorn = game.firstChild<Unicorn>()!;
         expect(unicorn.animation.currentIndex, equals(1));
         expect(unicorn.isAnimationPlaying(), equals(true));
       },
