@@ -8,7 +8,7 @@ class CounterComponent extends PositionComponent
     required super.position,
   }) : super(anchor: Anchor.center);
 
-  TextComponent? text;
+  late final TextComponent text;
 
   @override
   Future<void> onLoad() async {
@@ -27,6 +27,6 @@ class CounterComponent extends PositionComponent
 
   @override
   void update(double dt) {
-    text?.text = gameRef.l10n.counterText(gameRef.counter);
+    text.text = gameRef.l10n.counterText(gameRef.counter);
   }
 }
