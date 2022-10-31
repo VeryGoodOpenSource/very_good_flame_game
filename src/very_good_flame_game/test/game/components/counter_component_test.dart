@@ -40,14 +40,14 @@ void main() {
       final component = CounterComponent(position: Vector2.all(1));
       await game.ensureAdd(component);
 
-      expect(component.text?.text, equals(''));
+      expect(component.text.text, equals(''));
       game.counter = 1;
       game.update(0.1);
-      expect(component.text?.text, equals('counterText: 1'));
+      expect(component.text.text, equals('counterText: 1'));
 
       game.counter = 2;
       game.update(0.1);
-      expect(component.text?.text, equals('counterText: 2'));
+      expect(component.text.text, equals('counterText: 2'));
     });
   });
 }
