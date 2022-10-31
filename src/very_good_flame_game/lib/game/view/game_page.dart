@@ -1,6 +1,7 @@
 import 'package:flame/game.dart' hide Route;
 import 'package:flutter/material.dart';
 import 'package:very_good_flame_game/game/game.dart';
+import 'package:very_good_flame_game/l10n/l10n.dart';
 
 class GamePage extends StatelessWidget {
   const GamePage({super.key});
@@ -22,28 +23,23 @@ class GamePage extends StatelessWidget {
 class GameView extends StatefulWidget {
   const GameView({super.key, this.game});
 
-  final Game? game;
+  final FlameGame? game;
 
   @override
   State<GameView> createState() => _GameViewState();
 }
 
 class _GameViewState extends State<GameView> {
-  late Game _game;
+  FlameGame? _game;
 
   bool _muted = false;
 
   @override
-  void initState() {
-    super.initState();
-    _game = widget.game ?? VeryGoodFlameGame();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _game ??= widget.game ?? VeryGoodFlameGame(l10n: context.l10n);
     return Stack(
       children: [
-        Positioned.fill(child: GameWidget(game: _game)),
+        Positioned.fill(child: GameWidget(game: _game!)),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(

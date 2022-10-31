@@ -1,42 +1,37 @@
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_flame_game/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class TestGame extends Game {
-  @override
-  void render(Canvas canvas) {}
-
-  @override
-  void update(double dt) {}
-}
-
 void main() {
   group('GamePage', () {
     testWidgets('is routable', (tester) async {
-      await tester.pumpApp(
-        Builder(
-          builder: (context) => Scaffold(
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => Navigator.of(context).push(GamePage.route()),
+      await tester.runAsync(() async {
+        await tester.pumpApp(
+          Builder(
+            builder: (context) => Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => Navigator.of(context).push(GamePage.route()),
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.byType(FloatingActionButton));
+        await tester.tap(find.byType(FloatingActionButton));
 
-      await tester.pump();
-      await tester.pump();
+        await tester.pump();
+        await tester.pump();
 
-      expect(find.byType(GamePage), findsOneWidget);
+        expect(find.byType(GamePage), findsOneWidget);
+      });
     });
 
     testWidgets('renders GameView', (tester) async {
-      await tester.pumpApp(const GamePage());
-      expect(find.byType(GameView), findsOneWidget);
+      await tester.runAsync(() async {
+        await tester.pumpApp(const GamePage());
+        expect(find.byType(GameView), findsOneWidget);
+      });
     });
   });
 
