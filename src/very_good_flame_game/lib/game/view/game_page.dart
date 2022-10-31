@@ -1,5 +1,7 @@
 import 'package:flame/game.dart' hide Route;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:very_good_flame_game/app/app.dart';
 import 'package:very_good_flame_game/game/game.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
 
@@ -32,7 +34,17 @@ class GameView extends StatefulWidget {
 class _GameViewState extends State<GameView> {
   FlameGame? _game;
 
-  bool _muted = false;
+  @override
+  void initState() {
+    super.initState();
+    context.read<BackgroundMusicCubit>().play();
+  }
+
+  @override
+  void dispose() {
+    context.read<BackgroundMusicCubit>().pause();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +54,18 @@ class _GameViewState extends State<GameView> {
         Positioned.fill(child: GameWidget(game: _game!)),
         Align(
           alignment: Alignment.topRight,
-          child: IconButton(
-            icon: Icon(_muted ? Icons.volume_up : Icons.volume_off),
-            onPressed: () => setState(() => _muted = !_muted),
+          child: BlocBuilder<VolumeCubit, bool>(
+            builder: (context, muted) {
+              return IconButton(
+                icon: Icon(muted ? Icons.volume_up : Icons.volume_off),
+                onPressed: () async {
+                  if (muted) {
+                    return context.read<VolumeCubit>().unmute();
+                  }
+                  return context.read<VolumeCubit>().unmute();
+                },
+              );
+            },
           ),
         ),
       ],
