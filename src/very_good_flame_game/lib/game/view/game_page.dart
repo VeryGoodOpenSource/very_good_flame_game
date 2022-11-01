@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/game.dart' hide Route;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +17,22 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: GameView()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (context) {
+            return BackgroundMusicCubit(context.read<AudioPlayer>());
+          },
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => VolumeCubit(context.read<AudioPlayer>()),
+        ),
+      ],
+      child: const Scaffold(
+        body: SafeArea(child: GameView()),
+      ),
     );
   }
 }
@@ -34,15 +49,17 @@ class GameView extends StatefulWidget {
 class _GameViewState extends State<GameView> {
   FlameGame? _game;
 
+  late final BackgroundMusicCubit _backgroundMusicCubit;
+
   @override
   void initState() {
     super.initState();
-    context.read<BackgroundMusicCubit>().play();
+    _backgroundMusicCubit = context.read<BackgroundMusicCubit>()..play();
   }
 
   @override
   void dispose() {
-    context.read<BackgroundMusicCubit>().pause();
+    _backgroundMusicCubit.pause();
     super.dispose();
   }
 
@@ -62,7 +79,7 @@ class _GameViewState extends State<GameView> {
                   if (muted) {
                     return context.read<VolumeCubit>().unmute();
                   }
-                  return context.read<VolumeCubit>().unmute();
+                  return context.read<VolumeCubit>().mute();
                 },
               );
             },

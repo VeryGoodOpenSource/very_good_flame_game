@@ -3,7 +3,6 @@ import 'package:flame/cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:very_good_flame_game/app/app.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
 import 'package:very_good_flame_game/loading/loading.dart';
 
@@ -22,22 +21,11 @@ class App extends StatelessWidget {
         ),
       ],
       child: RepositoryProvider(
+        lazy: false,
         create: (context) {
           return AudioPlayer()..audioCache = context.read<PreloadCubit>().audio;
         },
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) {
-                return BackgroundMusicCubit(context.read<AudioPlayer>());
-              },
-            ),
-            BlocProvider(
-              create: (context) => VolumeCubit(context.read<AudioPlayer>()),
-            ),
-          ],
-          child: const AppView(),
-        ),
+        child: const AppView(),
       ),
     );
   }

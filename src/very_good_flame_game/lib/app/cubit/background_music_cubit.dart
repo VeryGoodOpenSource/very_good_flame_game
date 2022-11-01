@@ -12,11 +12,15 @@ class BackgroundMusicCubit extends Cubit<bool> {
 
   Future<void> play() async {
     await bgm.play(Assets.audio.background);
-    emit(true);
+    if (!isClosed) {
+      emit(true);
+    }
   }
 
   Future<void> pause() async {
     await bgm.pause();
-    emit(false);
+    if (!isClosed) {
+      emit(false);
+    }
   }
 }
