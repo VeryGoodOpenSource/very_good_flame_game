@@ -7,16 +7,7 @@ import 'package:very_good_flame_game/app/app.dart';
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   group('VolumeCubit', () {
-    test('can be instantiated', () {
-      expect(
-        VolumeCubit(_MockAudioPlayer()),
-        isA<VolumeCubit>(),
-      );
-    });
-
     late AudioPlayer player;
 
     setUp(() {

@@ -8,11 +8,15 @@ class VolumeCubit extends Cubit<bool> {
 
   Future<void> mute() async {
     await _audioPlayer.setVolume(0);
-    emit(true);
+    if (!isClosed) {
+      emit(true);
+    }
   }
 
   Future<void> unmute() async {
     await _audioPlayer.setVolume(1);
-    emit(false);
+    if (!isClosed) {
+      emit(false);
+    }
   }
 }

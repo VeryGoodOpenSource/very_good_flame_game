@@ -10,8 +10,6 @@ class _MockAudioPlayer extends Mock implements AudioPlayer {}
 class _FakeSource extends Fake implements AssetSource {}
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   group('BackgroundMusicCubit', () {
     late AudioPlayer player;
 
@@ -22,13 +20,6 @@ void main() {
     setUpAll(() {
       registerFallbackValue(ReleaseMode.release);
       registerFallbackValue(_FakeSource());
-    });
-
-    test('can be instantiated', () {
-      expect(
-        BackgroundMusicCubit(player),
-        isA<BackgroundMusicCubit>(),
-      );
     });
 
     blocTest<BackgroundMusicCubit, bool>(
