@@ -85,12 +85,7 @@ void main() {
       whenListen(volumeCubit, const Stream<bool>.empty(), initialState: false);
     });
 
-    // verify(() => backgroundMusicCubit.play()).called(1);
-
-    // TODO: make sepearte tests for both things (icon and action)
-    testWidgets('tapping the volume icon when it is un-muted, mute it',
-        (tester) async {
-      when(volumeCubit.mute).thenAnswer((_) async {});
+    testWidgets('toggles mute button correctly', (tester) async {
       final controller = StreamController<bool>();
       whenListen(volumeCubit, controller.stream, initialState: false);
 
@@ -101,22 +96,24 @@ void main() {
         backgroundMusicCubit: backgroundMusicCubit,
       );
 
-      expect(find.byType(IconButton), findsOneWidget);
       expect(find.byIcon(Icons.volume_off), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.volume_off));
       controller.add(true);
       await tester.pump();
 
-      verify(volumeCubit.mute).called(1);
       expect(find.byIcon(Icons.volume_up), findsOneWidget);
+
+      controller.add(false);
+      await tester.pump();
+
+      expect(find.byIcon(Icons.volume_off), findsOneWidget);
     });
 
-    testWidgets('tapping the volume icon when it is muted, un-mute it',
-        (tester) async {
-      when(volumeCubit.unmute).thenAnswer((_) async {});
+    testWidgets('calls correct method based on state', (tester) async {
       final controller = StreamController<bool>();
-      whenListen(volumeCubit, controller.stream, initialState: true);
+      when(volumeCubit.mute).thenAnswer((_) async {});
+      when(volumeCubit.unmute).thenAnswer((_) async {});
+      whenListen(volumeCubit, controller.stream, initialState: false);
 
       final game = TestGame();
       await tester.pumpApp(
@@ -125,15 +122,17 @@ void main() {
         backgroundMusicCubit: backgroundMusicCubit,
       );
 
-      expect(find.byType(IconButton), findsOneWidget);
-      expect(find.byIcon(Icons.volume_up), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.volume_off));
+      controller.add(true);
+      await tester.pump();
+      verify(volumeCubit.mute).called(1);
+      verifyNever(volumeCubit.unmute);
 
       await tester.tap(find.byIcon(Icons.volume_up));
-      controller.add(false);
+      controller.add(true);
       await tester.pump();
-
+      verifyNever(volumeCubit.mute);
       verify(volumeCubit.unmute).called(1);
-      expect(find.byIcon(Icons.volume_off), findsOneWidget);
     });
   });
 }
