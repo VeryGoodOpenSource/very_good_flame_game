@@ -110,8 +110,7 @@ void main() {
 
     testWidgets('calls correct method based on state', (tester) async {
       final controller = StreamController<AudioState>();
-      when(audioCubit.mute).thenAnswer((_) async {});
-      when(audioCubit.unmute).thenAnswer((_) async {});
+      when(audioCubit.toggleVolume).thenAnswer((_) async {});
       whenListen(audioCubit, controller.stream, initialState: AudioState());
 
       final game = TestGame();
@@ -125,14 +124,12 @@ void main() {
       await tester.tap(find.byIcon(Icons.volume_up));
       controller.add(AudioState(volume: 0));
       await tester.pump();
-      verify(audioCubit.mute).called(1);
-      verifyNever(audioCubit.unmute);
+      verify(audioCubit.toggleVolume).called(1);
 
       await tester.tap(find.byIcon(Icons.volume_off));
       controller.add(AudioState());
       await tester.pump();
-      verifyNever(audioCubit.mute);
-      verify(audioCubit.unmute).called(1);
+      verify(audioCubit.toggleVolume).called(1);
     });
   });
 }

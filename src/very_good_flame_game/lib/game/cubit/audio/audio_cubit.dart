@@ -14,23 +14,27 @@ class AudioCubit extends Cubit<AudioState> {
   AudioCubit.test({
     required this.effectPlayer,
     required this.bgm,
-  }) : super(const AudioState());
+    double volume = 1.0,
+  }) : super(AudioState(volume: volume));
 
   final AudioPlayer effectPlayer;
 
   final Bgm bgm;
 
-  void changeVolume(double volume) {
-    effectPlayer.setVolume(volume);
-    bgm.audioPlayer.setVolume(volume);
+  Future<void> changeVolume(double volume) async {
+    await effectPlayer.setVolume(volume);
+    await bgm.audioPlayer.setVolume(volume);
     if (!isClosed) {
       emit(state.copyWith(volume: volume));
     }
   }
 
-  void mute() => changeVolume(0);
-
-  void unmute() => changeVolume(1);
+  Future<void> toggleVolume() async {
+    if (state.volume == 0) {
+      return changeVolume(1);
+    }
+    return changeVolume(0);
+  }
 
   @override
   Future<void> close() {

@@ -13,6 +13,8 @@ class _MockBgm extends Mock implements Bgm {}
 
 void main() {
   group('AudioCubit', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     late AudioCache audioCache;
     late AudioPlayer effectPlayer;
     late Bgm bgm;
@@ -34,13 +36,13 @@ void main() {
     });
 
     blocTest<AudioCubit, AudioState>(
-      'mute',
+      'toggleVolume mutes the volume when the volume is not 0',
       setUp: () {
         when(() => effectPlayer.setVolume(any())).thenAnswer((_) async {});
         when(() => bgmPlayer.setVolume(any())).thenAnswer((_) async {});
       },
       build: () => AudioCubit.test(effectPlayer: effectPlayer, bgm: bgm),
-      act: (cubit) => cubit.mute(),
+      act: (cubit) => cubit.toggleVolume(),
       expect: () => [const AudioState(volume: 0)],
       verify: (_) {
         verify(() => effectPlayer.setVolume(any(that: equals(0)))).called(1);
@@ -49,13 +51,15 @@ void main() {
     );
 
     blocTest<AudioCubit, AudioState>(
-      'unmute',
+      'toggleVolume unmutes the volume when the volume is 0',
       setUp: () {
         when(() => effectPlayer.setVolume(any())).thenAnswer((_) async {});
         when(() => bgmPlayer.setVolume(any())).thenAnswer((_) async {});
       },
-      build: () => AudioCubit.test(effectPlayer: effectPlayer, bgm: bgm),
-      act: (cubit) => cubit.unmute(),
+      build: () {
+        return AudioCubit.test(effectPlayer: effectPlayer, bgm: bgm, volume: 0);
+      },
+      act: (cubit) => cubit.toggleVolume(),
       expect: () => [const AudioState()],
       verify: (_) {
         verify(() => effectPlayer.setVolume(any(that: equals(1)))).called(1);

@@ -73,12 +73,7 @@ class _GameViewState extends State<GameView> {
                 icon: Icon(
                   state.volume == 0 ? Icons.volume_off : Icons.volume_up,
                 ),
-                onPressed: () async {
-                  if (state.volume == 0) {
-                    return context.read<AudioCubit>().unmute();
-                  }
-                  return context.read<AudioCubit>().mute();
-                },
+                onPressed: () => context.read<AudioCubit>().toggleVolume(),
               );
             },
           ),
