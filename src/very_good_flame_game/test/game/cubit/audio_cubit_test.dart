@@ -12,7 +12,6 @@ class _MockAudioPlayer extends Mock implements AudioPlayer {}
 class _MockBgm extends Mock implements Bgm {}
 
 void main() {
-
   group('AudioCubit', () {
     late AudioCache audioCache;
     late AudioPlayer effectPlayer;

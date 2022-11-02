@@ -12,6 +12,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:very_good_flame_game/gen/assets.gen.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -35,10 +36,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = AppBlocObserver();
 
   LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString(
-      'assets/licenses/poppins/OFL.txt',
-    );
-    yield LicenseEntryWithLineBreaks(['poppins'], license);
+    final poppins = await rootBundle.loadString(Assets.licenses.poppins.ofl);
+    yield LicenseEntryWithLineBreaks(['poppins'], poppins);
   });
 
   await runZonedGuarded(

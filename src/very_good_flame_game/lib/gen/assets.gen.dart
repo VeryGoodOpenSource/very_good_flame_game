@@ -25,11 +25,25 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/unicorn_animation.png');
 }
 
+class $AssetsLicensesGen {
+  const $AssetsLicensesGen();
+
+  $AssetsLicensesPoppinsGen get poppins => const $AssetsLicensesPoppinsGen();
+}
+
+class $AssetsLicensesPoppinsGen {
+  const $AssetsLicensesPoppinsGen();
+
+  /// File path: assets/licenses/poppins/OFL.txt
+  String get ofl => 'assets/licenses/poppins/OFL.txt';
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLicensesGen licenses = $AssetsLicensesGen();
 }
 
 class AssetGenImage extends AssetImage {
