@@ -3,7 +3,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_audio/bgm.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:very_good_flame_game/game/cubit/audio_cubit.dart';
+import 'package:very_good_flame_game/game/cubit/cubit.dart';
 
 class _MockAudioCache extends Mock implements AudioCache {}
 

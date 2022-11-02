@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flame_audio/bgm.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+part 'audio_state.dart';
+
 class AudioCubit extends Cubit<AudioState> {
   AudioCubit({required AudioCache audioCache})
       : effectPlayer = AudioPlayer()..audioCache = audioCache,
@@ -36,16 +38,4 @@ class AudioCubit extends Cubit<AudioState> {
     bgm.dispose();
     return super.close();
   }
-}
-
-class AudioState extends Equatable {
-  const AudioState({this.volume = 1});
-  final double volume;
-
-  AudioState copyWith({double? volume}) {
-    return AudioState(volume: volume ?? this.volume);
-  }
-
-  @override
-  List<Object> get props => [volume];
 }

@@ -2,7 +2,6 @@ import 'package:flame/game.dart' hide Route;
 import 'package:flame_audio/bgm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:very_good_flame_game/game/cubit/audio_cubit.dart';
 import 'package:very_good_flame_game/game/game.dart';
 import 'package:very_good_flame_game/gen/assets.gen.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
