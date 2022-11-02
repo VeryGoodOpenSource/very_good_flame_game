@@ -51,7 +51,45 @@ void main() async {
           file = await file.writeAsString('$copyrightHeader\n$contents');
         }
 
-        // TODO(wolfen): the rest of the code generation.
+        final contents = await file.readAsString();
+        file = await file.writeAsString(
+          contents
+              // project_name
+              .replaceAll(
+                'very_good_flame_game',
+                '{{project_name.snakeCase()}}',
+              )
+              .replaceAll(
+                'very-good-flame-game',
+                '{{project_name.paramCase()}}',
+              )
+              .replaceAll(
+                'VeryGoodFlameGame',
+                '{{project_name.pascalCase()}}',
+              )
+              // description
+              .replaceAll(
+                'A Very Good Flame Game created by Very Good Ventures.',
+                '{{{description}}}',
+              )
+              .replaceAll(
+                'Very Good Flame Game',
+                '{{project_name.titleCase()}}',
+              )
+              // year
+              .replaceAll('2022', '{{current_year}}'),
+        );
+
+        final fileSegments = file.path.split('/').sublist(2);
+        if (fileSegments.any((e) => e.contains('very_good_flame_game'))) {
+          final newPathSegment = fileSegments.join('/').replaceAll(
+                'very_good_flame_game',
+                '{{project_name.snakeCase()}}',
+              );
+          final newPath = p.join(targetPath, newPathSegment);
+          File(newPath).createSync(recursive: true);
+          file.renameSync(newPath);
+        }
       } catch (_) {}
     }),
   );
