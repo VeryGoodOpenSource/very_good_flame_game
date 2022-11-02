@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^3.0.1
   intl: ^0.17.0
   mockingjay: ^0.3.0
 
@@ -37,3 +38,4 @@ flutter:
   assets:
     - assets/audio/
     - assets/images/
+    - assets/licenses/poppins/
