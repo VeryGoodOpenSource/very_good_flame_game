@@ -21,7 +21,7 @@ class AudioCubit extends Cubit<AudioState> {
 
   final Bgm bgm;
 
-  Future<void> changeVolume(double volume) async {
+  Future<void> _changeVolume(double volume) async {
     await effectPlayer.setVolume(volume);
     await bgm.audioPlayer.setVolume(volume);
     if (!isClosed) {
@@ -31,9 +31,9 @@ class AudioCubit extends Cubit<AudioState> {
 
   Future<void> toggleVolume() async {
     if (state.volume == 0) {
-      return changeVolume(1);
+      return _changeVolume(1);
     }
-    return changeVolume(0);
+    return _changeVolume(0);
   }
 
   @override
