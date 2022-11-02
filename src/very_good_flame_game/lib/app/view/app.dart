@@ -26,14 +26,9 @@ class App extends StatelessWidget {
   }
 }
 
-class AppView extends StatefulWidget {
+class AppView extends StatelessWidget {
   const AppView({super.key});
 
-  @override
-  State<AppView> createState() => _AppViewState();
-}
-
-class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
