@@ -16,29 +16,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('PreloadCubit', () {
-    test('can be instantiated', () {
-      expect(
-        PreloadCubit(_MockImages(), _MockAudioCache()),
-        isA<PreloadCubit>(),
-      );
-    });
-
-    test('can be instantiated with images', () {
-      final images = _MockImages();
-      final audio = _MockAudioCache();
-
-      expect(PreloadCubit(images, audio).images, images);
-    });
-
-    test('can be instantiated with initial state', () {
-      final preloadCubit = PreloadCubit(
-        _MockImages(),
-        _MockAudioCache(),
-      );
-
-      expect(preloadCubit.state, const PreloadState.initial());
-    });
-
     group('loadSequentially', () {
       late Images images;
       late AudioCache audio;
@@ -52,8 +29,13 @@ void main() {
           ).thenAnswer((invocation) => Future.value(<Image>[]));
 
           audio = _MockAudioCache();
-          when(() => audio.loadAll([Assets.audio.background])).thenAnswer(
-            (invocation) async => [Uri.parse(Assets.audio.background)],
+          when(
+            () => audio.loadAll([Assets.audio.background, Assets.audio.effect]),
+          ).thenAnswer(
+            (invocation) async => [
+              Uri.parse(Assets.audio.background),
+              Uri.parse(Assets.audio.effect)
+            ],
           );
         },
         build: () => PreloadCubit(images, audio),
@@ -80,9 +62,12 @@ void main() {
               .having((s) => s.loadedCount, 'loadedCount', equals(2)),
         ],
         verify: (bloc) {
-          verify(() => audio.loadAll([Assets.audio.background])).called(1);
-          verify(() => images.loadAll([Assets.images.unicornAnimation.path]))
-              .called(1);
+          verify(
+            () => audio.loadAll([Assets.audio.background, Assets.audio.effect]),
+          ).called(1);
+          verify(
+            () => images.loadAll([Assets.images.unicornAnimation.path]),
+          ).called(1);
         },
       );
     });

@@ -20,13 +20,7 @@ class App extends StatelessWidget {
           )..loadSequentially(),
         ),
       ],
-      child: RepositoryProvider(
-        lazy: false,
-        create: (context) {
-          return AudioPlayer()..audioCache = context.read<PreloadCubit>().audio;
-        },
-        child: const AppView(),
-      ),
+      child: const AppView(),
     );
   }
 }

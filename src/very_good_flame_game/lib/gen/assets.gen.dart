@@ -12,6 +12,9 @@ class $AssetsAudioGen {
 
   /// File path: assets/audio/background.wav
   String get background => 'assets/audio/background.wav';
+
+  /// File path: assets/audio/effect.wav
+  String get effect => 'assets/audio/effect.wav';
 }
 
 class $AssetsImagesGen {

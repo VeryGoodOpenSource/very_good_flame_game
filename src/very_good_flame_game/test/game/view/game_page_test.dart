@@ -1,11 +1,15 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_audio/bgm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:very_good_flame_game/app/app.dart';
+import 'package:very_good_flame_game/game/cubit/audio_cubit.dart';
 import 'package:very_good_flame_game/game/game.dart';
 import 'package:very_good_flame_game/loading/cubit/cubit.dart';
 
@@ -13,27 +17,23 @@ import '../../helpers/helpers.dart';
 
 class _FakeAssetSource extends Fake implements AssetSource {}
 
+class _MockAudioCubit extends MockCubit<AudioState> implements AudioCubit {}
+
+class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
+class _MockBgm extends Mock implements Bgm {}
+
 void main() {
   group('GamePage', () {
     late PreloadCubit preloadCubit;
-    late AudioPlayer audioPlayer;
 
     setUp(() {
       preloadCubit = MockPreloadCubit();
       when(() => preloadCubit.audio).thenReturn(AudioCache());
-
-      audioPlayer = MockAudioPlayer();
-      when(audioPlayer.dispose).thenAnswer((_) async {});
-      when(() => audioPlayer.setReleaseMode(any())).thenAnswer((_) async {});
-      when(() => audioPlayer.setVolume(any())).thenAnswer((_) async {});
-      when(() => audioPlayer.setSource(any())).thenAnswer((_) async {});
-      when(audioPlayer.resume).thenAnswer((_) async {});
-      when(audioPlayer.pause).thenAnswer((_) async {});
     });
 
     setUpAll(() {
       registerFallbackValue(_FakeAssetSource());
-      registerFallbackValue(ReleaseMode.loop);
     });
 
     testWidgets('is routable', (tester) async {
@@ -47,7 +47,6 @@ void main() {
             ),
           ),
           preloadCubit: preloadCubit,
-          audioPlayer: audioPlayer,
         );
 
         await tester.tap(find.byType(FloatingActionButton));
@@ -64,7 +63,6 @@ void main() {
         await tester.pumpApp(
           const GamePage(),
           preloadCubit: preloadCubit,
-          audioPlayer: audioPlayer,
         );
         expect(find.byType(GameView), findsOneWidget);
       });
@@ -72,67 +70,70 @@ void main() {
   });
 
   group('GameView', () {
-    late BackgroundMusicCubit backgroundMusicCubit;
-    late VolumeCubit volumeCubit;
+    late AudioCubit audioCubit;
 
     setUp(() {
-      backgroundMusicCubit = MockBackgroundMusicCubit();
-      when(() => backgroundMusicCubit.state).thenReturn(false);
-      when(backgroundMusicCubit.play).thenAnswer((_) async {});
-      when(backgroundMusicCubit.pause).thenAnswer((_) async {});
+      audioCubit = _MockAudioCubit();
+      when(() => audioCubit.state).thenReturn(AudioState());
 
-      volumeCubit = MockVolumeCubit();
-      whenListen(volumeCubit, const Stream<bool>.empty(), initialState: false);
+      final effectPlayer = _MockAudioPlayer();
+      when(() => audioCubit.effectPlayer).thenReturn(effectPlayer);
+      final bgm = _MockBgm();
+      when(() => audioCubit.bgm).thenReturn(bgm);
+      when(() => bgm.play(any())).thenAnswer((_) async {});
+      when(bgm.pause).thenAnswer((_) async {});
     });
 
     testWidgets('toggles mute button correctly', (tester) async {
-      final controller = StreamController<bool>();
-      whenListen(volumeCubit, controller.stream, initialState: false);
+      final controller = StreamController<AudioState>();
+      whenListen(audioCubit, controller.stream, initialState: AudioState());
 
       final game = TestGame();
       await tester.pumpApp(
-        Material(child: GameView(game: game)),
-        volumeCubit: volumeCubit,
-        backgroundMusicCubit: backgroundMusicCubit,
+        BlocProvider.value(
+          value: audioCubit,
+          child: Material(child: GameView(game: game)),
+        ),
       );
-
-      expect(find.byIcon(Icons.volume_off), findsOneWidget);
-
-      controller.add(true);
-      await tester.pump();
 
       expect(find.byIcon(Icons.volume_up), findsOneWidget);
 
-      controller.add(false);
+      controller.add(AudioState(volume: 0));
       await tester.pump();
 
       expect(find.byIcon(Icons.volume_off), findsOneWidget);
+
+      controller.add(AudioState());
+      await tester.pump();
+
+      expect(find.byIcon(Icons.volume_up), findsOneWidget);
     });
 
     testWidgets('calls correct method based on state', (tester) async {
-      final controller = StreamController<bool>();
-      when(volumeCubit.mute).thenAnswer((_) async {});
-      when(volumeCubit.unmute).thenAnswer((_) async {});
-      whenListen(volumeCubit, controller.stream, initialState: false);
+      final controller = StreamController<AudioState>();
+      when(audioCubit.mute).thenAnswer((_) async {});
+      when(audioCubit.unmute).thenAnswer((_) async {});
+      whenListen(audioCubit, controller.stream, initialState: AudioState());
 
       final game = TestGame();
       await tester.pumpApp(
-        Material(child: GameView(game: game)),
-        volumeCubit: volumeCubit,
-        backgroundMusicCubit: backgroundMusicCubit,
+        BlocProvider.value(
+          value: audioCubit,
+          child: Material(child: GameView(game: game)),
+        ),
       );
 
-      await tester.tap(find.byIcon(Icons.volume_off));
-      controller.add(true);
-      await tester.pump();
-      verify(volumeCubit.mute).called(1);
-      verifyNever(volumeCubit.unmute);
-
       await tester.tap(find.byIcon(Icons.volume_up));
-      controller.add(true);
+      controller.add(AudioState(volume: 0));
       await tester.pump();
-      verifyNever(volumeCubit.mute);
-      verify(volumeCubit.unmute).called(1);
+      verify(audioCubit.mute).called(1);
+      verifyNever(audioCubit.unmute);
+
+      await tester.tap(find.byIcon(Icons.volume_off));
+      controller.add(AudioState());
+      await tester.pump();
+      verifyNever(audioCubit.mute);
+      verify(audioCubit.unmute).called(1);
     });
   });
 }
