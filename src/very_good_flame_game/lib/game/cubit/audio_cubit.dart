@@ -47,5 +47,5 @@ class AudioState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [volume];
+  List<Object> get props => [volume];
 }
