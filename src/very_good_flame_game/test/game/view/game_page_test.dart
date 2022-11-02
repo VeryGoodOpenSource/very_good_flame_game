@@ -1,11 +1,40 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_audio/bgm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:very_good_flame_game/game/game.dart';
+import 'package:very_good_flame_game/loading/cubit/cubit.dart';
 
 import '../../helpers/helpers.dart';
 
+class _FakeAssetSource extends Fake implements AssetSource {}
+
+class _MockAudioCubit extends MockCubit<AudioState> implements AudioCubit {}
+
+class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
+class _MockBgm extends Mock implements Bgm {}
+
 void main() {
   group('GamePage', () {
+    late PreloadCubit preloadCubit;
+
+    setUp(() {
+      preloadCubit = MockPreloadCubit();
+      when(() => preloadCubit.audio).thenReturn(AudioCache());
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_FakeAssetSource());
+    });
+
     testWidgets('is routable', (tester) async {
       await tester.runAsync(() async {
         await tester.pumpApp(
@@ -16,6 +45,7 @@ void main() {
               ),
             ),
           ),
+          preloadCubit: preloadCubit,
         );
 
         await tester.tap(find.byType(FloatingActionButton));
@@ -29,28 +59,77 @@ void main() {
 
     testWidgets('renders GameView', (tester) async {
       await tester.runAsync(() async {
-        await tester.pumpApp(const GamePage());
+        await tester.pumpApp(
+          const GamePage(),
+          preloadCubit: preloadCubit,
+        );
         expect(find.byType(GameView), findsOneWidget);
       });
     });
   });
 
-  group(
-    'GameView',
-    () {
-      testWidgets('tapping the volume icon toggles the mute state',
-          (tester) async {
-        final game = TestGame();
-        await tester.pumpApp(Material(child: GameView(game: game)));
+  group('GameView', () {
+    late AudioCubit audioCubit;
 
-        expect(find.byType(IconButton), findsOneWidget);
-        expect(find.byIcon(Icons.volume_off), findsOneWidget);
+    setUp(() {
+      audioCubit = _MockAudioCubit();
+      when(() => audioCubit.state).thenReturn(AudioState());
 
-        await tester.tap(find.byIcon(Icons.volume_off));
-        await tester.pump();
+      final effectPlayer = _MockAudioPlayer();
+      when(() => audioCubit.effectPlayer).thenReturn(effectPlayer);
+      final bgm = _MockBgm();
+      when(() => audioCubit.bgm).thenReturn(bgm);
+      when(() => bgm.play(any())).thenAnswer((_) async {});
+      when(bgm.pause).thenAnswer((_) async {});
+    });
 
-        expect(find.byIcon(Icons.volume_up), findsOneWidget);
-      });
-    },
-  );
+    testWidgets('toggles mute button correctly', (tester) async {
+      final controller = StreamController<AudioState>();
+      whenListen(audioCubit, controller.stream, initialState: AudioState());
+
+      final game = TestGame();
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: audioCubit,
+          child: Material(child: GameView(game: game)),
+        ),
+      );
+
+      expect(find.byIcon(Icons.volume_up), findsOneWidget);
+
+      controller.add(AudioState(volume: 0));
+      await tester.pump();
+
+      expect(find.byIcon(Icons.volume_off), findsOneWidget);
+
+      controller.add(AudioState());
+      await tester.pump();
+
+      expect(find.byIcon(Icons.volume_up), findsOneWidget);
+    });
+
+    testWidgets('calls correct method based on state', (tester) async {
+      final controller = StreamController<AudioState>();
+      when(audioCubit.toggleVolume).thenAnswer((_) async {});
+      whenListen(audioCubit, controller.stream, initialState: AudioState());
+
+      final game = TestGame();
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: audioCubit,
+          child: Material(child: GameView(game: game)),
+        ),
+      );
+
+      await tester.tap(find.byIcon(Icons.volume_up));
+      controller.add(AudioState(volume: 0));
+      await tester.pump();
+      verify(audioCubit.toggleVolume).called(1);
+
+      await tester.tap(find.byIcon(Icons.volume_off));
+      controller.add(AudioState());
+      await tester.pump();
+      verify(audioCubit.toggleVolume).called(1);
+    });
+  });
 }

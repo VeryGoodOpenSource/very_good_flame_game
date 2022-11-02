@@ -19,7 +19,7 @@ class App extends StatelessWidget {
             Images(prefix: ''),
             AudioCache(prefix: ''),
           )..loadSequentially(),
-        )
+        ),
       ],
       child: const AppView(),
     );
@@ -32,6 +32,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF2A48DF),
         appBarTheme: const AppBarTheme(color: Color(0xFF2A48DF)),

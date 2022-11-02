@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/game.dart';
 import 'package:very_good_flame_game/game/game.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
@@ -7,11 +8,14 @@ import 'package:very_good_flame_game/l10n/l10n.dart';
 class VeryGoodFlameGame extends FlameGame with HasTappables {
   VeryGoodFlameGame({
     required this.l10n,
+    required this.effectPlayer,
   }) {
     images.prefix = '';
   }
 
   final AppLocalizations l10n;
+
+  final AudioPlayer effectPlayer;
 
   int counter = 0;
 

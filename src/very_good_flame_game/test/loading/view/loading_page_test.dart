@@ -31,8 +31,12 @@ void main() {
 
       when(() => images.loadAll(any())).thenAnswer((_) async => <Image>[]);
 
-      when(() => audio.loadAll([Assets.audio.background])).thenAnswer(
-        (_) async => [Uri.parse(Assets.audio.background)],
+      when(() => audio.loadAll([Assets.audio.background, Assets.audio.effect]))
+          .thenAnswer(
+        (_) async => [
+          Uri.parse(Assets.audio.background),
+          Uri.parse(Assets.audio.effect)
+        ],
       );
     });
 

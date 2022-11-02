@@ -6,7 +6,6 @@ void main() {
     testWidgets('renders AppView', (tester) async {
       await tester.pumpWidget(const App());
 
-      // FIXME: this is needed because of the preload cubit, can we do it better
       await tester.pumpAndSettle(const Duration(seconds: 400));
       expect(find.byType(AppView), findsOneWidget);
     });

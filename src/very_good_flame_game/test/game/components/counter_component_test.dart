@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,8 +10,10 @@ import 'package:very_good_flame_game/l10n/l10n.dart';
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
+class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
 class _VeryGoodFlameGame extends VeryGoodFlameGame {
-  _VeryGoodFlameGame({required super.l10n});
+  _VeryGoodFlameGame({required super.l10n, required super.effectPlayer});
 
   @override
   Future<void> onLoad() async {}
@@ -20,15 +23,17 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final l10n = _MockAppLocalizations();
-  when(() => l10n.counterText(any())).thenAnswer(
-    (invocation) => 'counterText: ${invocation.positionalArguments[0]}',
-  );
-
   final flameTester = FlameTester(
-    () => _VeryGoodFlameGame(l10n: l10n),
+    () => _VeryGoodFlameGame(l10n: l10n, effectPlayer: _MockAudioPlayer()),
   );
 
   group('CounterComponent', () {
+    setUp(() {
+      when(() => l10n.counterText(any())).thenAnswer(
+        (invocation) => 'counterText: ${invocation.positionalArguments[0]}',
+      );
+    });
+
     flameTester.test('has all components', (game) async {
       final component = CounterComponent(position: Vector2.all(1));
       await game.ensureAdd(component);

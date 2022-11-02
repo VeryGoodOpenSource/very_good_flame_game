@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
+import 'package:very_good_flame_game/game/cubit/cubit.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
 import 'package:very_good_flame_game/loading/loading.dart';
 
@@ -13,6 +14,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     MockNavigator? navigator,
     PreloadCubit? preloadCubit,
+    AudioCubit? audioCubit,
   }) {
     return pumpWidget(
       MultiBlocProvider(
