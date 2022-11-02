@@ -77,7 +77,7 @@ void main() async {
                 '{{project_name.titleCase()}}',
               )
               // year
-              .replaceAll('2022', '{{current_year}}'),
+              .replaceAll('Copyright (c) 2022 Very Good Ventures', 'Copyright (c) {{current_year}} Very Good Ventures'),
         );
 
         final fileSegments = file.path.split('/').sublist(2);
