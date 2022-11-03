@@ -65,7 +65,7 @@ void main() async {
                 '{{project_name.titleCase()}}',
               )
               .replaceAll(
-                'com.example.verygoodcore.very_good_flame_game',
+                'com.example.verygoodflamegame',
                 path.isWithin(_androidPath, file.path)
                     ? '{{org_name.dotCase()}}.{{project_name.snakeCase()}}'
                     : '{{org_name.dotCase()}}.{{project_name.paramCase()}}',
