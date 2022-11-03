@@ -10,11 +10,11 @@ import 'package:flutter/widgets.dart';
 class $AssetsAudioGen {
   const $AssetsAudioGen();
 
-  /// File path: assets/audio/background.wav
-  String get background => 'assets/audio/background.wav';
+  /// File path: assets/audio/background.mp3
+  String get background => 'assets/audio/background.mp3';
 
-  /// File path: assets/audio/effect.wav
-  String get effect => 'assets/audio/effect.wav';
+  /// File path: assets/audio/effect.mp3
+  String get effect => 'assets/audio/effect.mp3';
 }
 
 class $AssetsImagesGen {
