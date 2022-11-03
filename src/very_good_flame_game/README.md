@@ -65,11 +65,11 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 
 ```arb
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+  "@@locale": "en",
+  "startVeryGoodGame": "Start the Very Good Game",
+  "@startVeryGoodGame": {
+    "description": "The initial start button of the game application"
+  }
 }
 ```
 
@@ -77,15 +77,15 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 
 ```arb
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    },
-    "helloWorld": "Hello World",
-    "@helloWorld": {
-        "description": "Hello World Text"
-    }
+  "@@locale": "en",
+  "startVeryGoodGame": "Start the Very Good Game",
+  "@startVeryGoodGame": {
+    "description": "The initial start button of the game application"
+  },
+  "helloWorld": "Hello World",
+  "@helloWorld": {
+    "description": "Hello World Text"
+  }
 }
 ```
 
@@ -134,11 +134,11 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 
 ```arb
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+  "@@locale": "en",
+  "startVeryGoodGame": "Start the Very Good Game",
+  "@startVeryGoodGame": {
+    "description": "The initial start button of the game application"
+  }
 }
 ```
 
@@ -146,11 +146,11 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 
 ```arb
 {
-    "@@locale": "es",
-    "counterAppBarTitle": "Contador",
-    "@counterAppBarTitle": {
-        "description": "Texto mostrado en la AppBar de la página del contador"
-    }
+  "@@locale": "es",
+  "startVeryGoodGame": "Empieza el Muy Buen Juego",
+  "@startVeryGoodGame": {
+    "description": "El botón de inicio inicial de la aplicación del juego"
+  }
 }
 ```
 
