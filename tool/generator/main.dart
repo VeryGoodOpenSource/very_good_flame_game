@@ -84,7 +84,6 @@ void main() async {
           final newPath = path.join(_targetPath, newPathSegment);
           File(newPath).createSync(recursive: true);
           file.renameSync(newPath);
-          Directory(file.parent.path).deleteSync(recursive: true);
         }
       } catch (_) {}
     }),
@@ -103,6 +102,10 @@ void main() async {
 
   await Shell.mkdir(mainActivityKt.parent.path);
   await Shell.cp(path.join(_staticDir, 'MainActivity.kt'), mainActivityKt.path);
+  await Shell.rename(
+    path.join(_targetPath, 'very_good_flame_game'),
+    path.join(_targetPath, '{{project_name.snakeCase()}}'),
+  );
 }
 
 class Shell {
