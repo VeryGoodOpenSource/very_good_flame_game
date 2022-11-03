@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
-import 'package:path/path.dart' as p;
-
-final targetPath = p.join('brick', '__brick__');
-final sourcePath = p.join('src');
+final _sourcePath = path.join('src');
+final _targetPath = path.join('brick', '__brick__');
+final _androidPath = path.join(_targetPath, 'very_good_flame_game', 'android');
+final _androidKotlinPath =
+    path.join(_androidPath, 'app', 'src', 'main', 'kotlin');
+final _orgPath = path.join(_androidKotlinPath, 'com');
+final _staticDir = path.join('tool', 'generator', 'static');
 
 final copyrightHeader = '''
 // Copyright (c) {{current_year}}, Very Good Ventures
@@ -16,37 +20,27 @@ final copyrightHeader = '''
 
 void main() async {
   // Remove Previously Generated Files
-  final targetDir = Directory(targetPath);
+  final targetDir = Directory(_targetPath);
   if (targetDir.existsSync()) {
     await targetDir.delete(recursive: true);
   }
 
   // Copy Project Files
-  await Shell.cp(sourcePath, targetPath);
-  await Shell.cp(
-    p.join('.github', 'PULL_REQUEST_TEMPLATE.md'),
-    p.join(
-      targetPath,
-      'very_good_flame_game',
-      '.github',
-      'PULL_REQUEST_TEMPLATE.md',
-    ),
-  );
-  await Shell.cp(
-    p.join('.github', 'ISSUE_TEMPLATE'),
-    p.join(targetPath, 'very_good_flame_game', '.github', 'ISSUE_TEMPLATE'),
-  );
+  await Shell.cp(_sourcePath, _targetPath);
+
+  // Delete Android's Organization Folder Hierarchy
+  Directory(_orgPath).deleteSync(recursive: true);
 
   // Convert Values to Variables
   await Future.wait(
-    Directory(p.join(targetPath, 'very_good_flame_game'))
+    Directory(path.join(_targetPath, 'very_good_flame_game'))
         .listSync(recursive: true)
         .whereType<File>()
         .map((_) async {
       var file = _;
 
       try {
-        if (p.extension(file.path) == '.dart') {
+        if (path.extension(file.path) == '.dart') {
           final contents = await file.readAsString();
           file = await file.writeAsString('$copyrightHeader\n$contents');
         }
@@ -54,7 +48,6 @@ void main() async {
         final contents = await file.readAsString();
         file = await file.writeAsString(
           contents
-              // project_name
               .replaceAll(
                 'very_good_flame_game',
                 '{{project_name.snakeCase()}}',
@@ -64,11 +57,6 @@ void main() async {
                 '{{project_name.paramCase()}}',
               )
               .replaceAll(
-                'VeryGoodFlameGame',
-                '{{project_name.pascalCase()}}',
-              )
-              // description
-              .replaceAll(
                 'A Very Good Flame Game created by Very Good Ventures.',
                 '{{{description}}}',
               )
@@ -76,26 +64,48 @@ void main() async {
                 'Very Good Flame Game',
                 '{{project_name.titleCase()}}',
               )
-              // year
-              .replaceAll('Copyright (c) 2022 Very Good Ventures', 'Copyright (c) {{current_year}} Very Good Ventures'),
+              .replaceAll(
+                'com.example.verygoodflamegame',
+                path.isWithin(_androidPath, file.path)
+                    ? '{{org_name.dotCase()}}.{{project_name.snakeCase()}}'
+                    : '{{org_name.dotCase()}}.{{project_name.paramCase()}}',
+              )
+              .replaceAll(
+                'Copyright (c) 2022 Very Good Ventures',
+                'Copyright (c) {{current_year}} Very Good Ventures',
+              ),
         );
-
         final fileSegments = file.path.split('/').sublist(2);
-        if (fileSegments.any((e) => e.contains('very_good_flame_game'))) {
+        if (fileSegments.contains('very_good_flame_game')) {
           final newPathSegment = fileSegments.join('/').replaceAll(
                 'very_good_flame_game',
                 '{{project_name.snakeCase()}}',
               );
-          final newPath = p.join(targetPath, newPathSegment);
+          final newPath = path.join(_targetPath, newPathSegment);
           File(newPath).createSync(recursive: true);
           file.renameSync(newPath);
         }
       } catch (_) {}
     }),
   );
-  await Directory(
-    p.join(targetPath, 'very_good_flame_game'),
-  ).delete(recursive: true);
+
+  final mainActivityKt = File(
+    path.join(
+      _androidKotlinPath.replaceAll(
+        'very_good_flame_game',
+        '{{project_name.snakeCase()}}',
+      ),
+      '{{org_name.pathCase()}}',
+      'MainActivity.kt',
+    ),
+  );
+
+  await Shell.mkdir(mainActivityKt.parent.path);
+  await Shell.cp(path.join(_staticDir, 'MainActivity.kt'), mainActivityKt.path);
+  await Shell.rename(
+    path.join(_targetPath, 'very_good_flame_game'),
+    path.join(_targetPath, '{{project_name.snakeCase()}}'),
+  );
 }
 
 class Shell {
@@ -103,12 +113,13 @@ class Shell {
     return _Cmd.run('cp', ['-rf', source, destination]);
   }
 
-  static Future<void> rm(String source) {
-    return _Cmd.run('rm', ['-rf', source]);
-  }
-
   static Future<void> mkdir(String destination) {
     return _Cmd.run('mkdir', ['-p', destination]);
+  }
+
+  static Future<void> rename(String source, String destination) async {
+    await Shell.cp('$source/', '$destination/');
+    await _Cmd.run('rm', ['-rf', source]);
   }
 }
 
