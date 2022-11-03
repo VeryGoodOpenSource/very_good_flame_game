@@ -18,7 +18,7 @@ This template includes a simple demo game with the basics you'll need for game d
 
 ## Getting Started 🚀
 
-### With [Very Good CLI][cli]
+### With [Very Good CLI][very_good_cli_link]
 
 1. Install very_good_cli
 
