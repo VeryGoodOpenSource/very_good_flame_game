@@ -6,8 +6,18 @@ environment:
   mason: ">=0.1.0-dev.26 <0.1.0"
 
 vars:
-  name:
+  project_name:
     type: string
-    description: Your name
-    default: Dash
-    prompt: What is your name?
+    description: The project name
+    default: my_app
+    prompt: What is the project name?
+  org_name:
+    type: string
+    description: The organization name
+    default: com.example
+    prompt: What is the organization name?
+  description:
+    type: string
+    description: A short project description
+    default: A Very Good App
+    prompt: What is the project description?
