@@ -9,7 +9,7 @@ Developed with 💙 by [Very Good Ventures][very_good_ventures_link] 🦄
 
 A Very Good Flame game created by Very Good Ventures 🦄.
 
-Out of the box, Very Good Core includes:
+Out of the box, Very Good Flame Game includes:
 
 - ✅ Components - Think of them as game objects, or anything that can render in a game.
 - ✅ Entity and Behaviors - Entities are what manage the game objects and the behaviors handle the game logic for those objects.
@@ -18,7 +18,7 @@ Out of the box, Very Good Core includes:
 - ✅ VGV Project Architecture - This project contains a similar architecture to other VGV projects (see our [core starter app](very_good_core_link)).
 - ✅ 100% Test Coverage — Each line is executed at least once by a test.
 
-_\* Learn more at [Flutter Starter App: Very Good Core & CLI][very_good_cli_blog_link]_
+_\* Learn more at [Generate a game foundation with our new template][very_good_flame_game_blog_link]_
 
 ## Output 📦
 
@@ -46,6 +46,6 @@ _\* Learn more at [Flutter Starter App: Very Good Core & CLI][very_good_cli_blog
 [license_link]: https://opensource.org/licenses/MIT
 [logo_white]: https://raw.githubusercontent.com/VGVentures/very_good_brand/main/styles/README/vgv_logo_white.png#gh-dark-mode-only
 [very_good_core_link]: https://github.com/verygoodopensource/very_good_core
-[very_good_cli_blog_link]: https://verygood.ventures/blog/flutter-starter-app-very-good-core-cli
+[very_good_flame_game_blog_link]: https://verygood.ventures/blog/generate-a-game-with-our-new-template
 [very_good_ventures_link_dark]: https://verygood.ventures#gh-dark-mode-only
 [very_good_ventures_link]: https://verygood.ventures
