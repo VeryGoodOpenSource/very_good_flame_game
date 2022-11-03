@@ -47,7 +47,7 @@ very_good create my_game -t flame_game --desc "My new Flame game"
    `mason make very_good_flame_game`
 
 [blog]: https://verygood.ventures/blog/generate-a-game-with-our-new-template
-[cli]: https://github.com/VeryGoodOpenSource/very_good_cli
+[very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
 [coverage_badge]: src/very_good_dart_package/coverage_badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_link]: https://opensource.org/licenses/MIT
