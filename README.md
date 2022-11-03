@@ -33,6 +33,7 @@ very_good create my_game -t flame_game --desc "My new Flame game"
 ```
 
 ### With mason
+
 1. Install [mason][mason_link]
 
    `dart pub global activate mason_cli`
