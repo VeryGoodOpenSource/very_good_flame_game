@@ -18,6 +18,22 @@ This template includes a simple demo game with the basics you'll need for game d
 
 ## Getting Started 🚀
 
+### With [Very Good CLI][very_good_cli_link]
+
+1. Install very_good_cli
+
+```sh
+dart pub global activate very_good_cli
+```
+
+2. Generate your game
+```sh
+# Create a new Flame game named my_game
+very_good create my_game -t flame_game --desc "My new Flame game"
+```
+
+### With mason
+
 1. Install [mason][mason_link]
 
    `dart pub global activate mason_cli`
@@ -31,6 +47,7 @@ This template includes a simple demo game with the basics you'll need for game d
    `mason make very_good_flame_game`
 
 [blog]: https://verygood.ventures/blog/generate-a-game-with-our-new-template
+[very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
 [coverage_badge]: src/very_good_dart_package/coverage_badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_link]: https://opensource.org/licenses/MIT
