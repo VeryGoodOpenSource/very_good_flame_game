@@ -18,17 +18,10 @@ This template includes a simple demo game with the basics you'll need for game d
 
 ## Getting Started 🚀
 
-1. Install [mason][mason_link]
-
-   `dart pub global activate mason_cli`
-
-2. Add the brick
-
-   `mason add -g very_good_flame_game`
-
-3. Make a new Flame game
-
-   `mason make very_good_flame_game`
+```sh
+# Create a new Flame Game named my_game
+very_good create my_game -t flame_game --desc "My new Flame Game"
+```
 
 [blog]: https://verygood.ventures/blog/generate-a-game-with-our-new-template
 [coverage_badge]: src/very_good_dart_package/coverage_badge.svg
