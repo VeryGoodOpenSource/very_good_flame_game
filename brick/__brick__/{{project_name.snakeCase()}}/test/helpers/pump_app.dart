@@ -7,7 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:{{project_name.snakeCase()}}/game/cubit/cubit.dart';
@@ -29,10 +28,7 @@ extension PumpApp on WidgetTester {
           BlocProvider.value(value: preloadCubit ?? MockPreloadCubit()),
         ],
         child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: navigator != null
               ? MockNavigatorProvider(navigator: navigator, child: widget)
