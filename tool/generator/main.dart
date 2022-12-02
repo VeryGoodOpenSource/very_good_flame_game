@@ -9,15 +9,6 @@ final _androidKotlinPath =
 final _orgPath = path.join(_androidKotlinPath, 'com');
 final _staticDir = path.join('tool', 'generator', 'static');
 
-final copyrightHeader = '''
-// Copyright (c) {{current_year}}, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-''';
-
 void main() async {
   // Remove Previously Generated Files
   final targetDir = Directory(_targetPath);
@@ -40,9 +31,9 @@ void main() async {
       var file = _;
 
       try {
-        if (path.extension(file.path) == '.dart') {
-          final contents = await file.readAsString();
-          file = await file.writeAsString('$copyrightHeader\n$contents');
+        if (path.basename(file.path) == 'LICENSE') {
+          await file.delete(recursive: true);
+          return;
         }
 
         final contents = await file.readAsString();
@@ -69,10 +60,6 @@ void main() async {
                 path.isWithin(_androidPath, file.path)
                     ? '{{org_name.dotCase()}}.{{project_name.snakeCase()}}'
                     : '{{org_name.dotCase()}}.{{project_name.paramCase()}}',
-              )
-              .replaceAll(
-                'Copyright (c) 2022 Very Good Ventures',
-                'Copyright (c) {{current_year}} Very Good Ventures',
               ),
         );
         final fileSegments = file.path.split('/').sublist(2);
