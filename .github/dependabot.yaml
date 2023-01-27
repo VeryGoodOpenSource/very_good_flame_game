@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/src"
+    directory: "/src/very_good_flame_game"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
