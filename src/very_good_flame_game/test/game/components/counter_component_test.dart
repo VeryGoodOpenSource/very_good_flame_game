@@ -27,7 +27,6 @@ void main() {
     return _VeryGoodFlameGame(l10n: l10n, effectPlayer: _MockAudioPlayer());
   }
 
-
   group('CounterComponent', () {
     setUp(() {
       when(() => l10n.counterText(any())).thenAnswer(
