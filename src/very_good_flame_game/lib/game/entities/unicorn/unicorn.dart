@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:very_good_flame_game/game/entities/unicorn/behaviors/tapping_behavior.dart';
 import 'package:very_good_flame_game/gen/assets.gen.dart';
 
-class Unicorn extends Entity with HasGameRef {
+class Unicorn extends PositionedEntity with HasGameRef {
   Unicorn({
     required super.position,
   }) : super(
