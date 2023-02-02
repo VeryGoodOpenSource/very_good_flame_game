@@ -1,3 +1,7 @@
+# 0.0.4
+
+- feat: upgrade to Flutter 3.7.0 and Flame 1.6.0
+
 # 0.0.3
 
 - docs: remove copyright header and license from generated code
