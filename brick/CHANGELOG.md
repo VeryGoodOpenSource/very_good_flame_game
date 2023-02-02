@@ -1,3 +1,7 @@
+# 0.0.5
+
+- fix: google fonts test issue
+
 # 0.0.4
 
 - feat: upgrade to Flutter 3.7.0 and Flame 1.6.0
