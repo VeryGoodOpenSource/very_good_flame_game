@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
@@ -21,6 +23,8 @@ class _VeryGoodFlameGame extends VeryGoodFlameGame {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  // https://github.com/material-foundation/flutter-packages/issues/286#issuecomment-1406343761
+  HttpOverrides.global = null;
 
   final l10n = _MockAppLocalizations();
   _VeryGoodFlameGame createFlameGame() {
