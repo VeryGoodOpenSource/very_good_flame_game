@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   audioplayers: ^3.0.0
-  bloc: ^8.1.0
+  bloc: ^8.1.1
   equatable: ^2.0.5
   flame: ^1.6.0
   flame_audio: ^1.4.0
