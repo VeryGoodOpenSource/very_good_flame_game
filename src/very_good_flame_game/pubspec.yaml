@@ -15,7 +15,7 @@ dependencies:
   flame_behaviors: ^0.2.0
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.1
+  flutter_bloc: ^8.1.2
   flutter_localizations:
     sdk: flutter
   google_fonts: ^4.0.1
