@@ -677,11 +677,12 @@ packages:
   very_good_analysis:
     dependency: "direct dev"
     description:
-      name: very_good_analysis
-      sha256: "4815adc7ded57657038d2bb2a7f332c50e3c8152f7d3c6acf8f6b7c0cc81e5e2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0"
+      path: "."
+      ref: "feat/v4.0.0"
+      resolved-ref: ab64c3842d8b41566b2e0954f1e5a2cd10496a45
+      url: "https://github.com/VeryGoodOpenSource/very_good_analysis.git"
+    source: git
+    version: "4.0.0"
   vm_service:
     dependency: transitive
     description:
