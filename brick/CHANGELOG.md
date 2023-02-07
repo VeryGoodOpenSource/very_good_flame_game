@@ -1,9 +1,13 @@
+# 0.1.1
+
+- feat: update `very_good_analysis to ^4.0.0`
+
 # 0.1.0
 
 - feat: upgrade bloc
-    - bloc ^8.1.1
-    - flutter_bloc ^8.1.2
-    - bloc_test ^9.1.1
+  - bloc ^8.1.1
+  - flutter_bloc ^8.1.2
+  - bloc_test ^9.1.1
 - feat: upgrade to Flutter 3.7.1
 
 # 0.0.5
