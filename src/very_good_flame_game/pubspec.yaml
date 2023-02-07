@@ -23,7 +23,7 @@ dependencies:
   mockingjay: ^0.3.0
 
 dev_dependencies:
-  bloc_test: ^9.1.0
+  bloc_test: ^9.1.1
   flame_test: ^1.8.0
   flutter_test:
     sdk: flutter
