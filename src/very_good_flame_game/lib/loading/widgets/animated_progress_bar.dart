@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 class AnimatedProgressBar extends StatelessWidget {
   /// {@macro animated_progress_bar}
   const AnimatedProgressBar({
-    super.key,
     required this.progress,
     required this.backgroundColor,
     required this.foregroundColor,
+    super.key,
   }) : assert(
           progress >= 0.0 && progress <= 1.0,
           'Progress should be set between 0.0 and 1.0',
