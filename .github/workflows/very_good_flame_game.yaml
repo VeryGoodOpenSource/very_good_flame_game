@@ -23,6 +23,14 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
       flutter_channel: stable
-      flutter_version: 3.7.1
+      flutter_version: 3.7.3
       working_directory: src/very_good_flame_game
       coverage_excludes: "lib/gen/*.dart"
+  spell-check:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
+    with:
+      includes: |
+        **/*.md
+        !brick/**/*.md
+        .*/**/*.md
+      modified_files_only: false
