@@ -1,3 +1,8 @@
+# 0.1.2
+
+- feat: update workflows, add spellcheck
+- build(deps): update google_fonts
+
 # 0.1.1
 
 - feat: update `very_good_analysis to ^4.0.0`
