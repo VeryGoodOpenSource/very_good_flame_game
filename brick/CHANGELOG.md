@@ -1,3 +1,7 @@
+# 0.2.0
+
+- feat!: bump min Dart SDK to 2.19.0
+
 # 0.1.3
 
 - chore: support dart sdk 2.18.0
