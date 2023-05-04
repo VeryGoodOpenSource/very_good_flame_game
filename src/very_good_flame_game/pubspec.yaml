@@ -18,7 +18,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_localizations:
     sdk: flutter
-  google_fonts: ^4.0.3
+  google_fonts: ^4.0.4
   intl: ^0.17.0
   mockingjay: ^0.3.0
 
