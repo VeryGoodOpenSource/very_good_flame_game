@@ -33,8 +33,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
     yield LicenseEntryWithLineBreaks(['poppins'], poppins);
   });
 
-  await runZonedGuarded(
-    () async => runApp(await builder()),
-    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
-  );
+  // Add cross-flavor configuration here
+
+  runApp(await builder());
 }
