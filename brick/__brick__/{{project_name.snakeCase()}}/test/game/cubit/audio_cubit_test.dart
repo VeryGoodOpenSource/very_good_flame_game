@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_audio/bgm.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:{{project_name.snakeCase()}}/game/cubit/cubit.dart';
@@ -29,6 +30,12 @@ void main() {
 
       when(effectPlayer.dispose).thenAnswer((_) => Future.value());
       when(bgmPlayer.dispose).thenAnswer((_) => Future.value());
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+        const MethodChannel('xyz.luan/audioplayers'),
+        (_) => null,
+      );
     });
 
     test('can be instantiated', () {
