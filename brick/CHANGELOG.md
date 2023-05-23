@@ -1,3 +1,7 @@
+# 0.3.0
+
+- feat!: update to Dart 3.0.0
+
 # 0.2.0
 
 - feat!: bump min Dart SDK to 2.19.0
