@@ -64,7 +64,7 @@ void main() {
         game.update(0.1);
 
         final unicorn = game.firstChild<Unicorn>()!;
-        expect(unicorn.animation.currentIndex, equals(1));
+        expect(unicorn.animationTicker.currentIndex, equals(1));
         expect(unicorn.isAnimationPlaying(), equals(true));
 
         verify(() => audioPlayer.play(any())).called(1);
