@@ -20,14 +20,14 @@ dependencies:
     sdk: flutter
   google_fonts: ^4.0.4
   intl: ^0.18.0
-  mockingjay: ^0.3.0
+  mockingjay: ^0.4.0
 
 dev_dependencies:
   bloc_test: ^9.1.2
   flame_test: ^1.10.1
   flutter_test:
     sdk: flutter
-  mocktail: ^0.3.0
+  mocktail: ^1.0.0
   very_good_analysis: ^5.0.0
 
 flutter:

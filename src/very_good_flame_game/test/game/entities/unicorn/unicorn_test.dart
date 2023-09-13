@@ -85,7 +85,7 @@ void main() {
           expect(unicorn.animationTicker.currentIndex, equals(1));
           expect(unicorn.isAnimationPlaying(), equals(true));
 
-          unicorn.animationTicker.reset();
+          unicorn.resetAnimation();
           expect(unicorn.isAnimationPlaying(), equals(false));
           expect(unicorn.animationTicker.currentIndex, equals(0));
 

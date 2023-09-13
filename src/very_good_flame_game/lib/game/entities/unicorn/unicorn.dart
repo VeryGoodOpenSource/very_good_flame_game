@@ -47,7 +47,17 @@ class Unicorn extends PositionedEntity with HasGameRef {
       ),
     );
 
+    resetAnimation();
+
   }
+
+  void resetAnimation() {
+    animationTicker
+      ..currentIndex = animationTicker.spriteAnimation!.frames.length - 1
+      ..update(0.1)
+      ..currentIndex = 0;
+  }
+
 
   /// Plays the animation.
   void playAnimation() => animationTicker.reset();
