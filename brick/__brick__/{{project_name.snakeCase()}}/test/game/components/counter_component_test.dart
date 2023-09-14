@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:{{project_name.snakeCase()}}/game/game.dart';
@@ -25,6 +26,18 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   // https://github.com/material-foundation/flutter-packages/issues/286#issuecomment-1406343761
   HttpOverrides.global = null;
+
+  setUpAll(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (message) async => switch (message.method) {
+        ('getTemporaryDirectory' || 'getApplicationSupportDirectory') =>
+          Directory.systemTemp.createTempSync('fake').path,
+        _ => null,
+      },
+    );
+  });
 
   final l10n = _MockAppLocalizations();
   _VeryGoodFlameGame createFlameGame() {
