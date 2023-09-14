@@ -1,6 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:very_good_flame_game/game/game.dart';
 
 class CounterComponent extends PositionComponent
@@ -17,10 +15,7 @@ class CounterComponent extends PositionComponent
       text = TextComponent(
         anchor: Anchor.center,
         textRenderer: TextPaint(
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 4,
-          ),
+          style: game.textStyle,
         ),
       ),
     );

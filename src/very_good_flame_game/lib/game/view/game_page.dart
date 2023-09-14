@@ -33,6 +33,7 @@ class GameView extends StatefulWidget {
   const GameView({super.key, this.game});
 
   final FlameGame? game;
+
   @override
   State<GameView> createState() => _GameViewState();
 }
@@ -57,10 +58,16 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.bodySmall!.copyWith(
+          color: Colors.white,
+          fontSize: 4,
+        );
+
     _game ??= widget.game ??
         VeryGoodFlameGame(
           l10n: context.l10n,
           effectPlayer: context.read<AudioCubit>().effectPlayer,
+          textStyle: textStyle,
         );
     return Stack(
       children: [

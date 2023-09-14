@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_flame_game/game/entities/unicorn/behaviors/behaviors.dart';
@@ -17,7 +18,11 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {}
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 class _VeryGoodFlameGame extends VeryGoodFlameGame {
-  _VeryGoodFlameGame({required super.l10n, required super.effectPlayer});
+  _VeryGoodFlameGame({
+    required super.l10n,
+    required super.effectPlayer,
+    required super.textStyle,
+  });
 
   @override
   Future<void> onLoad() async {}
@@ -29,7 +34,11 @@ void main() {
   final l10n = _MockAppLocalizations();
   final audioPlayer = _MockAudioPlayer();
   final flameTester = FlameTester(
-    () => _VeryGoodFlameGame(l10n: l10n, effectPlayer: audioPlayer),
+    () => _VeryGoodFlameGame(
+      l10n: l10n,
+      effectPlayer: audioPlayer,
+      textStyle: const TextStyle(),
+    ),
   );
 
   group('TappingBehavior', () {
