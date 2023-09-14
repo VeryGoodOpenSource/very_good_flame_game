@@ -6,6 +6,7 @@
 - fix: added RunnerTests iOS Schema
 - fix: very_good create flutter_app doesn't create .gradlew files
 - feat: upgrade to `very_good_analysis ^5.1.0`
+- fix: text style tests for `CounterComponent`
 
 # 0.3.0
 
