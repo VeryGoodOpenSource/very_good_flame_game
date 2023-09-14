@@ -1,3 +1,12 @@
+# 0.4.0
+
+- feat!: update to Flame 1.8.2
+- feat!: bump min Dart SDK to 3.1.0
+- feat!: update to Flutter 3.13.2
+- fix: added RunnerTests iOS Schema
+- fix: very_good create flutter_app doesn't create .gradlew files
+- feat: upgrade to `very_good_analysis ^5.1.0`
+
 # 0.3.0
 
 - feat!: update to Dart 3.0.0
