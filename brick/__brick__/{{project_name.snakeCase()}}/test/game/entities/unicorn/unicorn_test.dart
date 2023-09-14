@@ -3,6 +3,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:{{project_name.snakeCase()}}/game/entities/unicorn/behaviors/behaviors.dart';
@@ -14,7 +15,11 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {}
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 class _VeryGoodFlameGame extends VeryGoodFlameGame {
-  _VeryGoodFlameGame({required super.l10n, required super.effectPlayer});
+  _VeryGoodFlameGame({
+    required super.l10n,
+    required super.effectPlayer,
+    required super.textStyle,
+  });
 
   @override
   Future<void> onLoad() async {}
@@ -25,7 +30,11 @@ void main() {
 
   final l10n = _MockAppLocalizations();
   _VeryGoodFlameGame createFlameGame() {
-    return _VeryGoodFlameGame(l10n: l10n, effectPlayer: _MockAudioPlayer());
+    return _VeryGoodFlameGame(
+      l10n: l10n,
+      effectPlayer: _MockAudioPlayer(),
+      textStyle: const TextStyle(),
+    );
   }
 
   group('Unicorn', () {
