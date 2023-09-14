@@ -38,12 +38,11 @@ void main() {
 
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      MethodChannel('plugins.flutter.io/path_provider'),
-      (message) async {
-        if (message.method == 'getTemporaryDirectory') {
-          return Directory.systemTemp.path;
-        }
-        return null;
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (message) async => switch (message.method) {
+        ('getTemporaryDirectory' || 'getApplicationSupportDirectory') =>
+          Directory.systemTemp.createTempSync('fake').path,
+        _ => null,
       },
     );
   });
