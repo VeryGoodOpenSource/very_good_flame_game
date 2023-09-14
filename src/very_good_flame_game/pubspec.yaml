@@ -4,7 +4,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   audioplayers: ^5.0.0
@@ -23,12 +23,12 @@ dependencies:
   mockingjay: ^0.4.0
 
 dev_dependencies:
-  bloc_test: ^9.1.2
-  flame_test: ^1.10.1
+  bloc_test: ^9.1.4
+  flame_test: ^1.12.1
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.0
-  very_good_analysis: ^5.0.0
+  very_good_analysis: ^5.1.0
 
 flutter:
   uses-material-design: true
