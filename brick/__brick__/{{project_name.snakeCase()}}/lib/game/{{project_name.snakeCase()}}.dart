@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame/palette.dart';
+import 'package:flutter/painting.dart';
 import 'package:{{project_name.snakeCase()}}/game/game.dart';
 import 'package:{{project_name.snakeCase()}}/l10n/l10n.dart';
 
@@ -11,6 +9,7 @@ class VeryGoodFlameGame extends FlameGame {
   VeryGoodFlameGame({
     required this.l10n,
     required this.effectPlayer,
+    required this.textStyle,
   }) {
     images.prefix = '';
   }
@@ -18,6 +17,8 @@ class VeryGoodFlameGame extends FlameGame {
   final AppLocalizations l10n;
 
   final AudioPlayer effectPlayer;
+
+  final TextStyle textStyle;
 
   int counter = 0;
 
