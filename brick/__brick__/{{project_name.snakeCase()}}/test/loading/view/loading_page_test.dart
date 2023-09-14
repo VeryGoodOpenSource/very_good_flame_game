@@ -35,7 +35,7 @@ void main() {
           .thenAnswer(
         (_) async => [
           Uri.parse(Assets.audio.background),
-          Uri.parse(Assets.audio.effect)
+          Uri.parse(Assets.audio.effect),
         ],
       );
     });
