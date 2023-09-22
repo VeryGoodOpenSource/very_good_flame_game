@@ -10,7 +10,7 @@ dependencies:
   audioplayers: ^5.0.0
   bloc: ^8.1.2
   equatable: ^2.0.5
-  flame: 1.8.2
+  flame: 1.9.1
   flame_audio: ^2.0.5
   flame_behaviors: ^0.2.0
   flutter:
