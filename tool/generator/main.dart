@@ -56,6 +56,10 @@ void main() async {
                 '{{project_name.titleCase()}}',
               )
               .replaceAll(
+                'VeryGoodFlameGame',
+                '{{project_name.pascalCase()}}',
+              )
+              .replaceAll(
                 'com.example.verygoodflamegame',
                 path.isWithin(_androidPath, file.path)
                     ? '{{org_name.dotCase()}}.{{project_name.snakeCase()}}'
