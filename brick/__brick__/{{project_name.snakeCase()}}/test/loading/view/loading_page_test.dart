@@ -80,6 +80,7 @@ void main() {
 
     testWidgets('redirects after loading', (tester) async {
       final navigator = MockNavigator();
+      when(navigator.canPop).thenReturn(true);
       when(() => navigator.pushReplacement<void, void>(any()))
           .thenAnswer((_) async {});
 
