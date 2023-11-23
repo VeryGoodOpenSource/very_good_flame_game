@@ -8,5 +8,8 @@
 .packages
 pubspec.lock
 
+# App templates lock file
+src/very_good_flame_game/ios/Podfile.lock
+
 # Conventional directory for build outputs
 build/
