@@ -23,6 +23,7 @@ void main() {
 
     testWidgets('starts the game when start button is tapped', (tester) async {
       final navigator = MockNavigator();
+      when(navigator.canPop).thenReturn(true);
       when(
         () => navigator.pushReplacement<void, void>(any()),
       ).thenAnswer((_) async {});
