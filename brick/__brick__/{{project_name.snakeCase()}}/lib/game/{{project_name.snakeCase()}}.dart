@@ -5,8 +5,8 @@ import 'package:flutter/painting.dart';
 import 'package:{{project_name.snakeCase()}}/game/game.dart';
 import 'package:{{project_name.snakeCase()}}/l10n/l10n.dart';
 
-class VeryGoodFlameGame extends FlameGame {
-  VeryGoodFlameGame({
+class {{project_name.pascalCase()}} extends FlameGame {
+  {{project_name.pascalCase()}}({
     required this.l10n,
     required this.effectPlayer,
     required this.textStyle,

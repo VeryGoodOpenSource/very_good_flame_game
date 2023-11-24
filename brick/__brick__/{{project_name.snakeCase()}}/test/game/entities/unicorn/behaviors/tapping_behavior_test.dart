@@ -17,8 +17,8 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
-class _VeryGoodFlameGame extends VeryGoodFlameGame {
-  _VeryGoodFlameGame({
+class _{{project_name.pascalCase()}} extends {{project_name.pascalCase()}} {
+  _{{project_name.pascalCase()}}({
     required super.l10n,
     required super.effectPlayer,
     required super.textStyle,
@@ -34,7 +34,7 @@ void main() {
   final l10n = _MockAppLocalizations();
   final audioPlayer = _MockAudioPlayer();
   final flameTester = FlameTester(
-    () => _VeryGoodFlameGame(
+    () => _{{project_name.pascalCase()}}(
       l10n: l10n,
       effectPlayer: audioPlayer,
       textStyle: const TextStyle(),
