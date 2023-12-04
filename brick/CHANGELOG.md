@@ -1,3 +1,10 @@
+# 0.5.0
+
+- feat: add macOS platform support ([#125](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/125))
+- fix: replace `VeryGoodFlameGame` with template ([#130](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/130))
+- feat: update to flame 1.10 ([#129](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/129))
+- fix: regenerate ios platform dir ([#134](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/134))
+
 # 0.4.0
 
 - feat!: update to Flame 1.8.2
