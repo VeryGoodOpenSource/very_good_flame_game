@@ -1,3 +1,14 @@
+# 0.5.0
+
+- build(deps): bump google_fonts in /src/very_good_flame_game ([#118](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/118))
+- build(deps): bump actions/checkout from 4.0.0 to 4.1.0 ([#121](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/121))
+- build(deps): bump actions/checkout from 4.1.0 to 4.1.1 ([#123](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/123))
+- feat: add macOS platform support ([#125](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/125))
+- fix: replace `VeryGoodFlameGame` with template ([#130](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/130))
+- feat: update to flame 1.10 ([#129](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/129))
+- build(deps): bump mockingjay from 0.4.0 to 0.5.0 in /src/very_good_flame_game ([#133](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/133))
+- fix: regenerate ios platform dir ([#134](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/134))
+
 # 0.4.0
 
 - feat!: update to Flame 1.8.2
