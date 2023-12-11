@@ -1,3 +1,7 @@
+# 0.5.1
+
+- chore: remove .DS_Store
+
 # 0.5.0
 
 - build(deps): bump google_fonts in /src/very_good_flame_game ([#118](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/118))
