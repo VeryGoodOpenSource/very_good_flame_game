@@ -1,3 +1,7 @@
+# 0.5.1
+
+- fix: remove ephemeral and ignored files from template ([#141](https://github.com/VeryGoodOpenSource/very_good_flame_game/issues/141))
+
 # 0.5.0
 
 - build(deps): bump google_fonts in /src/very_good_flame_game ([#118](https://github.com/VeryGoodOpenSource/very_good_flame_game/pull/118))
