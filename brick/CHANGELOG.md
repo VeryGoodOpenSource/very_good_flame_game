@@ -1,6 +1,6 @@
 # 0.5.1
 
-- chore: remove .DS_Store
+- fix: remove ephemeral and ignored files from template ([#141](https://github.com/VeryGoodOpenSource/very_good_flame_game/issues/141))
 
 # 0.5.0
 
