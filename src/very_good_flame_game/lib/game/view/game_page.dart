@@ -68,6 +68,7 @@ class _GameViewState extends State<GameView> {
           l10n: context.l10n,
           effectPlayer: context.read<AudioCubit>().effectPlayer,
           textStyle: textStyle,
+          images: context.read<PreloadCubit>().images,
         );
     return Stack(
       children: [
