@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/painting.dart';
@@ -10,15 +11,20 @@ import 'package:very_good_flame_game/game/entities/unicorn/behaviors/behaviors.d
 import 'package:very_good_flame_game/game/game.dart';
 import 'package:very_good_flame_game/l10n/l10n.dart';
 
+class _FakeImage extends Fake implements Image {}
+
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
+class _MockImages extends Mock implements Images {}
 
 class _VeryGoodFlameGame extends VeryGoodFlameGame {
   _VeryGoodFlameGame({
     required super.l10n,
     required super.effectPlayer,
     required super.textStyle,
+    required super.images,
   });
 
   @override
@@ -28,20 +34,27 @@ class _VeryGoodFlameGame extends VeryGoodFlameGame {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final l10n = _MockAppLocalizations();
+  late final AppLocalizations l10n;
+  late final Images images;
+
+  setUpAll(() {
+    l10n = _MockAppLocalizations();
+    images = _MockImages();
+
+    when(() => l10n.counterText(any())).thenReturn('counterText');
+    when(() => images.fromCache(any())).thenReturn(_FakeImage());
+  });
+
   _VeryGoodFlameGame createFlameGame() {
     return _VeryGoodFlameGame(
       l10n: l10n,
       effectPlayer: _MockAudioPlayer(),
       textStyle: const TextStyle(),
+      images: images,
     );
   }
 
   group('Unicorn', () {
-    setUp(() {
-      when(() => l10n.counterText(any())).thenReturn('counterText');
-    });
-
     testWithGame(
       'has all behaviors',
       createFlameGame,

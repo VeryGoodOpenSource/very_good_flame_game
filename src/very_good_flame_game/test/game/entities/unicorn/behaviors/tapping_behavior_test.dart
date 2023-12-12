@@ -1,7 +1,9 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:ui';
+
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flame/components.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/painting.dart';
@@ -13,6 +15,8 @@ import 'package:very_good_flame_game/l10n/l10n.dart';
 
 class _FakeAssetSource extends Fake implements AssetSource {}
 
+class _MockImages extends Mock implements Images {}
+
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
@@ -22,6 +26,7 @@ class _VeryGoodFlameGame extends VeryGoodFlameGame {
     required super.l10n,
     required super.effectPlayer,
     required super.textStyle,
+    required super.images,
   });
 
   @override
@@ -33,23 +38,38 @@ void main() {
 
   final l10n = _MockAppLocalizations();
   final audioPlayer = _MockAudioPlayer();
+  final images = _MockImages();
   final flameTester = FlameTester(
     () => _VeryGoodFlameGame(
       l10n: l10n,
       effectPlayer: audioPlayer,
       textStyle: const TextStyle(),
+      images: images,
     ),
   );
 
+  Future<Image> fakeImage() async {
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder);
+    canvas.drawRect(
+      const Rect.fromLTWH(0, 0, 1, 1),
+      Paint()..color = const Color(0xFF000000),
+    );
+    final picture = recorder.endRecording();
+    return picture.toImage(1, 1);
+  }
+
   group('TappingBehavior', () {
-    setUpAll(() {
+    late final Image image;
+
+    setUpAll(() async {
       registerFallbackValue(_FakeAssetSource());
-    });
 
-    setUp(() {
+      image = await fakeImage();
+
       when(() => l10n.counterText(any())).thenReturn('counterText');
-
       when(() => audioPlayer.play(any())).thenAnswer((_) async {});
+      when(() => images.fromCache(any())).thenReturn(image);
     });
 
     flameTester.testGameWidget(
