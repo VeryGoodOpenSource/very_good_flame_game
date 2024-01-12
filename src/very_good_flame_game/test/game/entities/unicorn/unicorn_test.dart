@@ -34,27 +34,27 @@ class _VeryGoodFlameGame extends VeryGoodFlameGame {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late final AppLocalizations l10n;
-  late final Images images;
-
-  setUpAll(() {
-    l10n = _MockAppLocalizations();
-    images = _MockImages();
-
-    when(() => l10n.counterText(any())).thenReturn('counterText');
-    when(() => images.fromCache(any())).thenReturn(_FakeImage());
-  });
-
-  _VeryGoodFlameGame createFlameGame() {
-    return _VeryGoodFlameGame(
-      l10n: l10n,
-      effectPlayer: _MockAudioPlayer(),
-      textStyle: const TextStyle(),
-      images: images,
-    );
-  }
-
   group('Unicorn', () {
+    late AppLocalizations l10n;
+    late Images images;
+
+    setUp(() {
+      l10n = _MockAppLocalizations();
+      images = _MockImages();
+
+      when(() => l10n.counterText(any())).thenReturn('counterText');
+      when(() => images.fromCache(any())).thenReturn(_FakeImage());
+    });
+
+    _VeryGoodFlameGame createFlameGame() {
+      return _VeryGoodFlameGame(
+        l10n: l10n,
+        effectPlayer: _MockAudioPlayer(),
+        textStyle: const TextStyle(),
+        images: images,
+      );
+    }
+
     testWithGame(
       'has all behaviors',
       createFlameGame,

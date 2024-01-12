@@ -27,26 +27,26 @@ class _VeryGoodFlameGame extends VeryGoodFlameGame {
 }
 
 void main() {
-  late final AppLocalizations l10n;
-
-  setUpAll(() {
-    l10n = _MockAppLocalizations();
-
-    when(() => l10n.counterText(any())).thenAnswer(
-      (invocation) => 'counterText: ${invocation.positionalArguments[0]}',
-    );
-  });
-
-  VeryGoodFlameGame createFlameGame() {
-    return _VeryGoodFlameGame(
-      l10n: l10n,
-      effectPlayer: _MockAudioPlayer(),
-      textStyle: const TextStyle(),
-      images: Images(),
-    );
-  }
-
   group('$CounterComponent', () {
+    late AppLocalizations l10n;
+
+    setUp(() {
+      l10n = _MockAppLocalizations();
+
+      when(() => l10n.counterText(any())).thenAnswer(
+        (invocation) => 'counterText: ${invocation.positionalArguments[0]}',
+      );
+    });
+
+    VeryGoodFlameGame createFlameGame() {
+      return _VeryGoodFlameGame(
+        l10n: l10n,
+        effectPlayer: _MockAudioPlayer(),
+        textStyle: const TextStyle(),
+        images: Images(),
+      );
+    }
+
     testWithGame(
       'has all components',
       createFlameGame,
