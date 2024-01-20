@@ -26,10 +26,10 @@ This template includes a simple demo game with the basics you'll need for game d
 dart pub global activate very_good_cli
 ```
 
-2. Generate your game
+2. Generate your game named my_game
+
 ```sh
-# Create a new Flame game named my_game
-very_good create flame_game my_game --desc "My new Flame game
+very_good create flame_game my_game --desc "My new Flame game"
 ```
 
 ### With mason
