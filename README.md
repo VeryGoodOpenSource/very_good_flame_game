@@ -29,6 +29,7 @@ dart pub global activate very_good_cli
 2. Generate your game
 
 ```sh
+# Create a new Flame game named my_game
 very_good create flame_game my_game --desc "My new Flame game"
 ```
 
