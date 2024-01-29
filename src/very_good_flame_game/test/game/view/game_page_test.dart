@@ -65,12 +65,12 @@ void main() {
     });
 
     setUp(() {
-      preloadCubit = _MockPreloadCubit();
       images = _MockImages();
+      when(() => images.fromCache(any())).thenReturn(_FakeImage());
 
+      preloadCubit = _MockPreloadCubit();
       when(() => preloadCubit.audio).thenReturn(AudioCache(prefix: ''));
       when(() => preloadCubit.images).thenReturn(images);
-      when(() => images.fromCache(any())).thenReturn(_FakeImage());
     });
 
     testWidgets('is routable', (tester) async {
