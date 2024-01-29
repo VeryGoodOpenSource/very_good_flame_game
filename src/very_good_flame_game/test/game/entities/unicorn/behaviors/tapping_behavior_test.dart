@@ -41,14 +41,12 @@ void main() {
     late AudioPlayer audioPlayer;
     late Images images;
 
-    FlameTester createFlameGameTester() {
-      return FlameTester(
-        () => _VeryGoodFlameGame(
-          l10n: l10n,
-          effectPlayer: audioPlayer,
-          textStyle: const TextStyle(),
-          images: images,
-        ),
+    VeryGoodFlameGame createFlameGame() {
+      return _VeryGoodFlameGame(
+        l10n: l10n,
+        effectPlayer: audioPlayer,
+        textStyle: const TextStyle(),
+        images: images,
       );
     }
 
@@ -79,7 +77,7 @@ void main() {
       when(() => images.fromCache(any())).thenReturn(image);
     });
 
-    createFlameGameTester().testGameWidget(
+    FlameTester(createFlameGame).testGameWidget(
       'when tapped, starts playing the animation',
       setUp: (game, tester) async {
         await game.ensureAdd(
