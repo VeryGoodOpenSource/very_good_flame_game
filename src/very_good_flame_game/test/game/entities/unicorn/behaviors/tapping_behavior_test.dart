@@ -54,17 +54,6 @@ void main() {
       registerFallbackValue(_FakeAssetSource());
     });
 
-    Future<Image> fakeImage() async {
-      final recorder = PictureRecorder();
-      final canvas = Canvas(recorder);
-      canvas.drawRect(
-        const Rect.fromLTWH(0, 0, 1, 1),
-        Paint()..color = const Color(0xFF000000),
-      );
-      final picture = recorder.endRecording();
-      return picture.toImage(1, 1);
-    }
-
     setUp(() async {
       l10n = _MockAppLocalizations();
       when(() => l10n.counterText(any())).thenReturn('counterText');
@@ -73,7 +62,7 @@ void main() {
       when(() => audioPlayer.play(any())).thenAnswer((_) async {});
 
       images = _MockImages();
-      final image = await fakeImage();
+      final image = await _fakeImage();
       when(() => images.fromCache(any())).thenReturn(image);
     });
 
@@ -105,4 +94,15 @@ void main() {
       },
     );
   });
+}
+
+Future<Image> _fakeImage() async {
+  final recorder = PictureRecorder();
+  final canvas = Canvas(recorder);
+  canvas.drawRect(
+    const Rect.fromLTWH(0, 0, 1, 1),
+    Paint()..color = const Color(0xFF000000),
+  );
+  final picture = recorder.endRecording();
+  return picture.toImage(1, 1);
 }
