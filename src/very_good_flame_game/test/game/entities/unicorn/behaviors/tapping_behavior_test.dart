@@ -36,43 +36,50 @@ class _VeryGoodFlameGame extends VeryGoodFlameGame {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final l10n = _MockAppLocalizations();
-  final audioPlayer = _MockAudioPlayer();
-  final images = _MockImages();
-  final flameTester = FlameTester(
-    () => _VeryGoodFlameGame(
-      l10n: l10n,
-      effectPlayer: audioPlayer,
-      textStyle: const TextStyle(),
-      images: images,
-    ),
-  );
-
-  Future<Image> fakeImage() async {
-    final recorder = PictureRecorder();
-    final canvas = Canvas(recorder);
-    canvas.drawRect(
-      const Rect.fromLTWH(0, 0, 1, 1),
-      Paint()..color = const Color(0xFF000000),
-    );
-    final picture = recorder.endRecording();
-    return picture.toImage(1, 1);
-  }
-
   group('TappingBehavior', () {
-    late final Image image;
+    late AppLocalizations l10n;
+    late AudioPlayer audioPlayer;
+    late Images images;
+
+    FlameTester createFlameGameTester() {
+      return FlameTester(
+        () => _VeryGoodFlameGame(
+          l10n: l10n,
+          effectPlayer: audioPlayer,
+          textStyle: const TextStyle(),
+          images: images,
+        ),
+      );
+    }
 
     setUpAll(() async {
       registerFallbackValue(_FakeAssetSource());
+    });
 
-      image = await fakeImage();
+    Future<Image> fakeImage() async {
+      final recorder = PictureRecorder();
+      final canvas = Canvas(recorder);
+      canvas.drawRect(
+        const Rect.fromLTWH(0, 0, 1, 1),
+        Paint()..color = const Color(0xFF000000),
+      );
+      final picture = recorder.endRecording();
+      return picture.toImage(1, 1);
+    }
 
+    setUp(() async {
+      l10n = _MockAppLocalizations();
       when(() => l10n.counterText(any())).thenReturn('counterText');
+
+      audioPlayer = _MockAudioPlayer();
       when(() => audioPlayer.play(any())).thenAnswer((_) async {});
+
+      images = _MockImages();
+      final image = await fakeImage();
       when(() => images.fromCache(any())).thenReturn(image);
     });
 
-    flameTester.testGameWidget(
+    createFlameGameTester().testGameWidget(
       'when tapped, starts playing the animation',
       setUp: (game, tester) async {
         await game.ensureAdd(
