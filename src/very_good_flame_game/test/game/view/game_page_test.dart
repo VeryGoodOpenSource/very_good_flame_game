@@ -30,6 +30,9 @@ class _MockImages extends Mock implements Images {}
 
 class _MockBgm extends Mock implements Bgm {}
 
+class _MockPreloadCubit extends MockCubit<PreloadState>
+    implements PreloadCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   // https://github.com/material-foundation/flutter-packages/issues/286#issuecomment-1406343761
@@ -58,7 +61,7 @@ void main() {
     late final Images images;
 
     setUpAll(() {
-      preloadCubit = MockPreloadCubit();
+      preloadCubit = _MockPreloadCubit();
       images = _MockImages();
 
       when(() => preloadCubit.audio).thenReturn(AudioCache(prefix: ''));
