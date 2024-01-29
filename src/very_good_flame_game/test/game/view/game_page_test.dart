@@ -57,18 +57,20 @@ void main() {
   });
 
   group('GamePage', () {
-    late final PreloadCubit preloadCubit;
-    late final Images images;
+    late PreloadCubit preloadCubit;
+    late Images images;
 
     setUpAll(() {
+      registerFallbackValue(_FakeAssetSource());
+    });
+
+    setUp(() {
       preloadCubit = _MockPreloadCubit();
       images = _MockImages();
 
       when(() => preloadCubit.audio).thenReturn(AudioCache(prefix: ''));
       when(() => preloadCubit.images).thenReturn(images);
       when(() => images.fromCache(any())).thenReturn(_FakeImage());
-
-      registerFallbackValue(_FakeAssetSource());
     });
 
     testWidgets('is routable', (tester) async {
