@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _{{project_name.pascalCase()}} extends {{project_name.pascalCase()}} {
     required super.l10n,
     required super.effectPlayer,
     required super.textStyle,
+    required super.images,
   });
 
   @override
@@ -25,21 +27,25 @@ class _{{project_name.pascalCase()}} extends {{project_name.pascalCase()}} {
 }
 
 void main() {
-  final l10n = _MockAppLocalizations();
-  _{{project_name.pascalCase()}} createFlameGame() {
-    return _{{project_name.pascalCase()}}(
-      l10n: l10n,
-      effectPlayer: _MockAudioPlayer(),
-      textStyle: const TextStyle(),
-    );
-  }
-
   group('$CounterComponent', () {
+    late AppLocalizations l10n;
+
     setUp(() {
+      l10n = _MockAppLocalizations();
+
       when(() => l10n.counterText(any())).thenAnswer(
         (invocation) => 'counterText: ${invocation.positionalArguments[0]}',
       );
     });
+
+    {{project_name.pascalCase()}} createFlameGame() {
+      return _{{project_name.pascalCase()}}(
+        l10n: l10n,
+        effectPlayer: _MockAudioPlayer(),
+        textStyle: const TextStyle(),
+        images: Images(),
+      );
+    }
 
     testWithGame(
       'has all components',

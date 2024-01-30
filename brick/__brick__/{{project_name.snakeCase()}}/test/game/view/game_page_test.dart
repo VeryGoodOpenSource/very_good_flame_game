@@ -2,9 +2,11 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/cache.dart';
 import 'package:flame_audio/bgm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,11 +20,18 @@ import '../../helpers/helpers.dart';
 
 class _FakeAssetSource extends Fake implements AssetSource {}
 
+class _FakeImage extends Fake implements ui.Image {}
+
 class _MockAudioCubit extends MockCubit<AudioState> implements AudioCubit {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
+class _MockImages extends Mock implements Images {}
+
 class _MockBgm extends Mock implements Bgm {}
+
+class _MockPreloadCubit extends MockCubit<PreloadState>
+    implements PreloadCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -49,14 +58,19 @@ void main() {
 
   group('GamePage', () {
     late PreloadCubit preloadCubit;
-
-    setUp(() {
-      preloadCubit = MockPreloadCubit();
-      when(() => preloadCubit.audio).thenReturn(AudioCache(prefix: ''));
-    });
+    late Images images;
 
     setUpAll(() {
       registerFallbackValue(_FakeAssetSource());
+    });
+
+    setUp(() {
+      images = _MockImages();
+      when(() => images.fromCache(any())).thenReturn(_FakeImage());
+
+      preloadCubit = _MockPreloadCubit();
+      when(() => preloadCubit.audio).thenReturn(AudioCache(prefix: ''));
+      when(() => preloadCubit.images).thenReturn(images);
     });
 
     testWidgets('is routable', (tester) async {
