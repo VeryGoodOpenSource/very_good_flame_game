@@ -30,8 +30,8 @@ class Unicorn extends PositionedEntity with HasGameRef {
 
   @override
   Future<void> onLoad() async {
-    final animation = await gameRef.loadSpriteAnimation(
-      Assets.images.unicornAnimation.path,
+    final animation = SpriteAnimation.fromFrameData(
+      gameRef.images.fromCache(Assets.images.unicornAnimation.path),
       SpriteAnimationData.sequenced(
         amount: 16,
         stepTime: 0.1,

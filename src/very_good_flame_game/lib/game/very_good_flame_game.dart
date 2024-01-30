@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/painting.dart';
@@ -10,8 +11,9 @@ class VeryGoodFlameGame extends FlameGame {
     required this.l10n,
     required this.effectPlayer,
     required this.textStyle,
+    required Images images,
   }) {
-    images.prefix = '';
+    this.images = images;
   }
 
   final AppLocalizations l10n;
