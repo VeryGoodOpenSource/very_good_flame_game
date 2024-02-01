@@ -70,5 +70,5 @@ jobs:
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          exclude: "**.gen.dart"
+          exclude: "**/*.gen.dart"
           path: brick/output/unicorn_game/coverage/lcov.info
