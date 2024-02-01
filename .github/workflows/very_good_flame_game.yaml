@@ -52,20 +52,20 @@ jobs:
       - name: 📦 Install Dependencies
         run: |
           dart pub global activate very_good_cli
-          very_good packages get --recursive output/test_game
+          very_good packages get --recursive output/unicorn_game
 
       - name: ✨ Check Formatting
-        run: dart format --set-exit-if-changed output/test_game
+        run: dart format --set-exit-if-changed output/unicorn_game
 
       - name: 🕵️ Analyze
-        run: dart analyze --fatal-infos --fatal-warnings output/test_game
+        run: dart analyze --fatal-infos --fatal-warnings output/unicorn_game
 
       - name: 🧪 Run Tests
         run: |
-          cd output/test_game
+          cd output/unicorn_game
           very_good output -j 4 --recursive --optimization --coverage --test-randomize-ordering-seed random
 
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: brick/output/test_game/coverage/lcov.info
+          path: brick/output/unicorn_game/coverage/lcov.info
