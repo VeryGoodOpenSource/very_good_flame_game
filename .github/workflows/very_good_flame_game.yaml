@@ -47,25 +47,25 @@ jobs:
         run: |
           dart pub global activate mason_cli
           mason get
-          mason make very_good_flame_game -c config.json -o test --on-conflict overwrite
+          mason make very_good_flame_game -c config.json -o output --on-conflict overwrite
 
       - name: 📦 Install Dependencies
         run: |
           dart pub global activate very_good_cli
-          very_good packages get --recursive test/test_app
+          very_good packages get --recursive output/test_game
 
       - name: ✨ Check Formatting
-        run: dart format --set-exit-if-changed test/test_app
+        run: dart format --set-exit-if-changed output/test_game
 
       - name: 🕵️ Analyze
-        run: dart analyze --fatal-infos --fatal-warnings test/test_app
+        run: dart analyze --fatal-infos --fatal-warnings output/test_game
 
       - name: 🧪 Run Tests
         run: |
-          cd test/test_app
-          very_good test -j 4 --recursive --optimization --coverage --test-randomize-ordering-seed random
+          cd output/test_game
+          very_good output -j 4 --recursive --optimization --coverage --test-randomize-ordering-seed random
 
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: brick/test/test_app/coverage/lcov.info
+          path: brick/output/test_game/coverage/lcov.info
