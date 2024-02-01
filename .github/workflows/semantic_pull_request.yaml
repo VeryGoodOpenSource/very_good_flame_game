@@ -1,4 +1,4 @@
-name: ci
+name: semantic_pull_request
 
 on:
   pull_request:
