@@ -65,7 +65,7 @@ jobs:
       - name: 🧪 Run Tests
         run: |
           cd output/unicorn_game
-          very_good test -j 4 --recursive --optimization --coverage --test-randomize-ordering-seed random
+          very_good test -j 4 --recursive --optimization --coverage --test-randomize-ordering-seed random --exclude-coverage **.gen.dart
 
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
