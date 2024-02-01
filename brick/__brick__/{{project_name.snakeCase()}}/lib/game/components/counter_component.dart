@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:{{project_name.snakeCase()}}/game/game.dart';
 
-class CounterComponent extends PositionComponent with HasGameRef<{project_name.pascalCase()}}> {
+class CounterComponent extends PositionComponent with HasGameRef<{{project_name.pascalCase()}}> {
   CounterComponent({
     required super.position,
   }) : super(anchor: Anchor.center);
