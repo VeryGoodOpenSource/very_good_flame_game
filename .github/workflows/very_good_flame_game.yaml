@@ -1,37 +1,74 @@
 name: very_good_flame_game
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/very_good_flame_game.yaml"
-      - "src/very_good_flame_game/lib/**"
-      - "src/very_good_flame_game/test/**"
-      - "src/very_good_flame_game/pubspec.yaml"
-      - "tool/generator/**"
   push:
+    paths:
+      - .github/workflows/very_good_flame_game.yaml
+      - "brick/**"
     branches:
       - main
+  pull_request:
     paths:
-      - ".github/workflows/very_good_flame_game.yaml"
-      - "src/very_good_flame_game/lib/**"
-      - "src/very_good_flame_game/test/**"
-      - "src/very_good_flame_game/pubspec.yaml"
-      - "tool/generator/**"
+      - .github/workflows/very_good_flame_game.yaml
+      - "brick/**"
+    branches:
+      - main
 
 jobs:
-  build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
-    with:
-      flutter_channel: stable
-      flutter_version: 3.16.0
-      working_directory: src/very_good_flame_game
-      coverage_excludes: "lib/gen/*.dart"
+  brick:
+    defaults:
+      run:
+        working-directory: brick
 
-  spell-check:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
-    with:
-      includes: |
-        **/*.md
-        !brick/**/*.md
-        .*/**/*.md
-      modified_files_only: false
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        flutter-version:
+          # The version of Flutter to use should use the minimum Dart SDK version supported by the package,
+          # refer to https://docs.flutter.dev/development/tools/sdk/releases.
+          # FIXME(alestiago): Current minimum is 3.13.2 but can't be used, see:
+          # https://github.com/VeryGoodOpenSource/very_good_flame_game/issues/150
+          - "3.16.0"
+          - "3.x"
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.flutter-version }}
+
+      - name: 🧱 Mason Make
+        run: |
+          dart pub global activate mason_cli
+          mason get
+          mason make very_good_flame_game -c config.json -o output --on-conflict overwrite
+
+      - name: 📦 Install Dependencies
+        run: |
+          dart pub global activate very_good_cli
+          very_good packages get --recursive output/unicorn_game
+
+      - name: ✨ Check Formatting
+        run: dart format --set-exit-if-changed output/unicorn_game
+
+      - name: 🕵️ Analyze
+        run: dart analyze --fatal-infos --fatal-warnings output/unicorn_game
+
+      - name: 🧪 Run Tests
+        run: |
+          cd output/unicorn_game
+          very_good test -j 4 --recursive --optimization --coverage --test-randomize-ordering-seed random
+
+      - name: 📊 Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          exclude: "**/*.gen.dart"
+          path: brick/output/unicorn_game/coverage/lcov.info
