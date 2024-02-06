@@ -34,7 +34,7 @@ jobs:
           # FIXME(alestiago): Current minimum is 3.13.2 but can't be used, see:
           # https://github.com/VeryGoodOpenSource/very_good_flame_game/issues/150
           - "3.16.0"
-          - ""
+          - "3.x"
 
     steps:
       - name: 📚 Git Checkout
